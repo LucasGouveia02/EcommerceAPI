@@ -5,6 +5,9 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.antlr.v4.runtime.misc.NotNull;
+
+import java.math.BigDecimal;
 
 @Getter @Setter
 @AllArgsConstructor
@@ -14,15 +17,8 @@ public class ProdutoModel {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    private Integer id;
-
-    @Column(name = "nome", length = 50, nullable = true)
+    private Long id;
     private String nome;
-
-    @Column(name = "categoria", length = 50, nullable = true)
     private String categoria;
-//
-//    @Column(name = "preco", nullable = true)
-//    private Double preco;
+    private BigDecimal preco;
 }
