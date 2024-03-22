@@ -15,13 +15,8 @@ public class ProdutoModel {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    private Integer id;
-
-    @Column(name = "nome", length = 50, nullable = true)
+    private Long id;
     private String nome;
-
-    @Column(name = "categoria", length = 50, nullable = true)
     private String categoria;
 
     public ProdutoModel(ProdutoDto dto) {
