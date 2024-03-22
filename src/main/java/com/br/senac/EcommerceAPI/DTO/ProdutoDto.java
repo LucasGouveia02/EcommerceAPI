@@ -8,8 +8,8 @@ import lombok.Setter;
 @Getter @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Produto {
+public class ProdutoDto {
     private String nome;
     private String categoria;
-    private Double preco;
+
 }
