@@ -19,7 +19,7 @@ public class ProdutoService {
     public ResponseEntity<ProdutoDto> criarProduto(ProdutoDto dto) {
         ProdutoModel prd = new ProdutoModel(dto);
         this.produtoRepository.save(prd);
-        ProdutoDto prdDto = new ProdutoDto(prd.getNome(), prd.getCategoria());
+        ProdutoDto prdDto = new ProdutoDto(prd.getNome(), prd.getCategoria(), prd.getPreco());
         return new ResponseEntity<>(prdDto, HttpStatus.CREATED);
     }
 

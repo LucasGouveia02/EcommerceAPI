@@ -1,7 +1,8 @@
 package com.br.senac.EcommerceAPI.Repositories;
 
 import com.br.senac.EcommerceAPI.Models.ProdutoModel;
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-public interface ProdutoRepository extends CrudRepository<ProdutoModel, Integer> {
-}
+@Repository
+public interface ProdutoRepository extends JpaRepository<ProdutoModel, Long> {}
