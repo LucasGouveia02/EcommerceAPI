@@ -6,12 +6,13 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 
 @Getter @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class ProdutoDto {
+public class ProdutoDto implements Serializable {
     private String nome;
     private String categoria;
     private MultipartFile imagem;
