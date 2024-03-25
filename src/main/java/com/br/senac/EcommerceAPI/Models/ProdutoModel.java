@@ -1,6 +1,6 @@
 package com.br.senac.EcommerceAPI.Models;
 
-import com.br.senac.EcommerceAPI.DTO.ProdutoDto;
+import com.br.senac.EcommerceAPI.DTO.ProdutoDTO;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -26,7 +26,7 @@ public class ProdutoModel {
     @Column(nullable = false, name = "categoria")
     private String categoria;
 
-    public ProdutoModel(ProdutoDto dto) {
+    public ProdutoModel(ProdutoDTO dto) {
         this.nome = dto.getNome();
         this.categoria = dto.getCategoria();
     }
