@@ -1,6 +1,6 @@
 package com.br.senac.EcommerceAPI.Models;
 
-import com.br.senac.EcommerceAPI.DTO.ClienteDTO;
+import com.br.senac.EcommerceAPI.DTO.UsuarioDTO;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -14,7 +14,7 @@ import java.util.Date;
 @Getter @Setter
 @Entity
 @Table(name = "cliente")
-public class ClienteModel {
+public class UsuarioModel {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,7 +29,7 @@ public class ClienteModel {
     private String cpf;
     private Date dataNascimento;
 
-    public ClienteModel(ClienteDTO dto) {
+    public UsuarioModel(UsuarioDTO dto) {
         this.nome = dto.getNome();
         this.email = dto.getEmail();
         this.telefone = dto.getTelefone();
