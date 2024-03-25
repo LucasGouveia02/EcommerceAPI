@@ -24,10 +24,11 @@ public class ProdutoController {
     }
 
     @PostMapping("/cadastrarProd")
-    public ResponseEntity<ProdutoDTO> cadastrarProd(@RequestParam("nome") String nome,
-                                                    @RequestParam("categoria") String categoria,
-                                                    @RequestParam("imagem") MultipartFile imagem) throws Exception {
-        ProdutoDTO produtoDto = new ProdutoDTO(nome, categoria, imagem);
+    public ResponseEntity<ProdutoDTO> cadastrarProd(@RequestBody ProdutoDTO produtoDto) throws Exception {
         return produtoService.criarProduto(produtoDto);
+    }
+    @PostMapping("/upload")
+    public ResponseEntity uploadArquivo(@RequestParam("imagem") MultipartFile arquivo) throws Exception {
+        return produtoService.processarArquivo(arquivo);
     }
 }

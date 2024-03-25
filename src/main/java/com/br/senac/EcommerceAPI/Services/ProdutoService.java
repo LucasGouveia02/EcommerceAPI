@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -23,9 +24,14 @@ public class ProdutoService {
     public ResponseEntity<ProdutoDTO> criarProduto(ProdutoDTO dto) throws Exception {
         ProdutoModel prd = new ProdutoModel(dto);
         this.produtoRepository.save(prd);
+
         ProdutoDTO prdDto = new ProdutoDTO(prd.getNome(), prd.getCategoria());
-        String imageUrl = blobStorageService.uploadImage(dto.getImagem());
         return new ResponseEntity<>(prdDto, HttpStatus.CREATED);
+    }
+
+    public ResponseEntity processarArquivo(MultipartFile imagem) throws Exception {
+        String imageUrl = blobStorageService.uploadImage(imagem);
+        return new ResponseEntity(HttpStatus.CREATED);
     }
 
     public ResponseEntity<List<ProdutoModel>> listarTodos() {

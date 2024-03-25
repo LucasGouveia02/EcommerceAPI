@@ -6,11 +6,13 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.web.multipart.MultipartFile;
 
-@Getter
-@Setter
+import java.io.Serializable;
+
+@Getter @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class ProdutoDTO {
+public class ProdutoDTO implements Serializable {
+
     private String nome;
     private String categoria;
     private MultipartFile imagem;
