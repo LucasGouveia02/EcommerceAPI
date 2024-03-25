@@ -1,7 +1,7 @@
 package com.br.senac.EcommerceAPI.Services;
 
 import com.br.senac.EcommerceAPI.BlobsAzure.BlobStorageService;
-import com.br.senac.EcommerceAPI.DTO.ProdutoDto;
+import com.br.senac.EcommerceAPI.DTO.ProdutoDTO;
 import com.br.senac.EcommerceAPI.Models.ProdutoModel;
 import com.br.senac.EcommerceAPI.Repositories.ProdutoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,10 +20,10 @@ public class ProdutoService {
     @Autowired
     private BlobStorageService blobStorageService;
 
-    public ResponseEntity<ProdutoDto> criarProduto(ProdutoDto dto) throws Exception {
+    public ResponseEntity<ProdutoDTO> criarProduto(ProdutoDTO dto) throws Exception {
         ProdutoModel prd = new ProdutoModel(dto);
         this.produtoRepository.save(prd);
-        ProdutoDto prdDto = new ProdutoDto(prd.getNome(), prd.getCategoria());
+        ProdutoDTO prdDto = new ProdutoDTO(prd.getNome(), prd.getCategoria());
         String imageUrl = blobStorageService.uploadImage(dto.getImagem());
         return new ResponseEntity<>(prdDto, HttpStatus.CREATED);
     }
