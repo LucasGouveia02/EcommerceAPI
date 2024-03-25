@@ -1,15 +1,13 @@
 package com.br.senac.EcommerceAPI.Controllers;
 
-import com.br.senac.EcommerceAPI.DTO.ProdutoDto;
+import com.br.senac.EcommerceAPI.DTO.ProdutoDTO;
 import com.br.senac.EcommerceAPI.Models.ProdutoModel;
-import com.br.senac.EcommerceAPI.Repositories.ProdutoRepository;
 import com.br.senac.EcommerceAPI.Services.ProdutoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 @RestController
@@ -26,10 +24,10 @@ public class ProdutoController {
     }
 
     @PostMapping("/cadastrarProd")
-    public ResponseEntity<ProdutoDto> cadastrarProd(@RequestParam("nome") String nome,
+    public ResponseEntity<ProdutoDTO> cadastrarProd(@RequestParam("nome") String nome,
                                                     @RequestParam("categoria") String categoria,
                                                     @RequestParam("imagem") MultipartFile imagem) throws Exception {
-        ProdutoDto produtoDto = new ProdutoDto(nome, categoria, imagem);
+        ProdutoDTO produtoDto = new ProdutoDTO(nome, categoria, imagem);
         return produtoService.criarProduto(produtoDto);
     }
 }
