@@ -27,6 +27,20 @@ public class EnderecoService {
         return new ResponseEntity<>(listaEndereco, HttpStatus.OK);
     }
 
+    public ResponseEntity<EnderecoModel> buscaPorId(Long id) throws Exception {
+        EnderecoModel endereco = enderecoRepository.findById(id).orElseThrow(
+                () -> new Exception("Endereço não localizado!"));
+        return new ResponseEntity<>(endereco, HttpStatus.OK);
+    }
+
+    public ResponseEntity<EnderecoModel> buscaPorCep(String cep) throws Exception {
+        EnderecoModel e = enderecoRepository.buscaPorCep(cep);
+        if(e != null) {
+            return new ResponseEntity<>(e, HttpStatus.OK);
+        } else
+            throw new Exception("Endereço não localizado");
+    }
+
     public ResponseEntity<EnderecoModel> atualizarEndereco(Long id, EnderecoDTO dto) throws Exception {
         EnderecoModel eE = enderecoRepository.findById(id).orElseThrow(
                 () -> new Exception("Endereço não encontrado"));
