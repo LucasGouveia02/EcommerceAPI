@@ -27,15 +27,15 @@ public class UsuarioModel {
     private String telefone;
     @Column(nullable = false, unique = true)
     private String cpf;
-    @Column(nullable = true)
-    private Date dtNascimento;
+    @Column(nullable = true, name = "dt_nascimento")
+    private String dtNascimento;
 
     public UsuarioModel(UsuarioDTO dto) {
         this.nome = dto.getNome();
         this.email = dto.getEmail();
         this.telefone = dto.getTelefone();
         this.cpf = dto.getCpf();
-        this.dtNascimento = dto.getDataNascimento();
+        this.dtNascimento = dto.getDtNascimento();
     }
 
 }
