@@ -24,18 +24,17 @@ public class UsuarioService {
 
         UsuarioModel usuario = new UsuarioModel(dto);
 
-        try {
-            if(dto.getDataNascimento() != null) {
-                dto.setDataNascimento(ajustarData(dto.getDataNascimento()));
-            }
-
+//        try {
+//            if(dto.getDataNascimento() != null) {
+//                dto.setDataNascimento(ajustarData(dto.getDataNascimento()));
+//            }
 
             usuarioRepository.save(usuario);
 
             return new ResponseEntity<>(usuario, HttpStatus.CREATED);
-        } catch (ParseException e) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
+//        } catch (ParseException e) {
+//            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+//        }
     }
 
     private Date ajustarData(Date data) throws ParseException {
@@ -45,6 +44,10 @@ public class UsuarioService {
         String dataFormatada = formatter.format(data);
 
         return formatter.parse(dataFormatada);
+    }
+
+    public ResponseEntity<String> processarData(String dtNascimento) {
+        return new ResponseEntity<>(dtNascimento, HttpStatus.CREATED);
     }
 
     public ResponseEntity<List<UsuarioModel>> listarUsuarios() {
@@ -81,7 +84,7 @@ public class UsuarioService {
         cE.setEmail(dto.getEmail());
         cE.setTelefone(dto.getTelefone());
         cE.setCpf(dto.getCpf());
-        cE.setDtNascimento(dto.getDataNascimento());
+        cE.setDtNascimento(dto.getDtNascimento());
 
         usuarioRepository.save(cE);
         return new ResponseEntity<>(cE, HttpStatus.OK);
