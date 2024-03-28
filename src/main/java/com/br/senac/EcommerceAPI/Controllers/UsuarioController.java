@@ -18,7 +18,7 @@ public class UsuarioController {
     @Autowired
     private UsuarioService usuarioService;
 
-    @PostMapping
+    @PostMapping("/criar")
     public ResponseEntity<UsuarioModel> criarCliente(@RequestBody UsuarioDTO dto) throws ParseException {
         return usuarioService.criarUsuario(dto);
     }
