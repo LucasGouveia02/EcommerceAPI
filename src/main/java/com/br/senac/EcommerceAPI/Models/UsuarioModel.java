@@ -28,7 +28,7 @@ public class UsuarioModel {
     @Column(nullable = false, unique = true)
     private String cpf;
     @Column(nullable = true, name = "dt_nascimento")
-    private String dtNascimento;
+    private Date dtNascimento;
 
     public UsuarioModel(UsuarioDTO dto) {
         this.nome = dto.getNome();

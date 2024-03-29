@@ -24,17 +24,17 @@ public class UsuarioService {
 
         UsuarioModel usuario = new UsuarioModel(dto);
 
-//        try {
-//            if(dto.getDataNascimento() != null) {
-//                dto.setDataNascimento(ajustarData(dto.getDataNascimento()));
-//            }
+        try {
+            if(dto.getDtNascimento() != null) {
+                dto.setDtNascimento(ajustarData(dto.getDtNascimento()));
+            }
 
             usuarioRepository.save(usuario);
 
             return new ResponseEntity<>(usuario, HttpStatus.CREATED);
-//        } catch (ParseException e) {
-//            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-//        }
+        } catch (ParseException e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
     }
 
     private Date ajustarData(Date data) throws ParseException {
