@@ -2,7 +2,10 @@ package com.br.senac.EcommerceAPI.Services;
 
 import com.br.senac.EcommerceAPI.DTO.EnderecoDTO;
 import com.br.senac.EcommerceAPI.Models.EnderecoModel;
+import com.br.senac.EcommerceAPI.Models.EnderecoUsuario;
+import com.br.senac.EcommerceAPI.Models.UsuarioModel;
 import com.br.senac.EcommerceAPI.Repositories.EnderecoRepository;
+import com.br.senac.EcommerceAPI.ViaCep.ViaCepResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,10 +19,30 @@ public class EnderecoService {
     @Autowired
     private EnderecoRepository enderecoRepository;
 
-    public ResponseEntity<EnderecoModel> criarEndereco(EnderecoDTO dto) {
-        EnderecoModel endereco = new EnderecoModel(dto);
-        enderecoRepository.save(endereco);
-        return new ResponseEntity<>(endereco, HttpStatus.CREATED);
+    @Autowired
+    private ViaCepService viaCepService;
+
+//    @Autowired
+//    private EnderecoUsuario enderecoUsuario;
+
+    public ResponseEntity<EnderecoModel> criarEndereco(String cep, String numero) throws Exception {
+
+        ViaCepResponse viaCepResponse = viaCepService.dadosCep(cep);
+
+        if(viaCepResponse != null) {
+            EnderecoModel endereco = new EnderecoModel();
+            endereco.setCep(viaCepResponse.getCep());
+            endereco.setLogradouro(viaCepResponse.getLogradouro());
+            endereco.setBairro(viaCepResponse.getBairro());
+            endereco.setNumero(numero);
+            endereco.setCidade(viaCepResponse.getCidade());
+            endereco.setUf(viaCepResponse.getUf());
+
+            enderecoRepository.save(endereco);
+
+            return new ResponseEntity<>(endereco, HttpStatus.CREATED);
+        } else
+            throw new Exception("Erro ao cadastrar o endereço");
     }
 
     public ResponseEntity<List<EnderecoModel>> listarEnderecos() {

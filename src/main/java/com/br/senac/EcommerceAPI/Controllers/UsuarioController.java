@@ -1,5 +1,6 @@
 package com.br.senac.EcommerceAPI.Controllers;
 
+import com.br.senac.EcommerceAPI.DTO.CadastroUsuarioDTO;
 import com.br.senac.EcommerceAPI.DTO.UsuarioDTO;
 import com.br.senac.EcommerceAPI.Models.UsuarioModel;
 import com.br.senac.EcommerceAPI.Services.UsuarioService;
@@ -19,7 +20,7 @@ public class UsuarioController {
     private UsuarioService usuarioService;
 
     @PostMapping("/criar")
-    public ResponseEntity<UsuarioModel> criarCliente(@RequestBody UsuarioDTO dto) throws ParseException {
+    public ResponseEntity<UsuarioModel> criarCliente(@RequestBody CadastroUsuarioDTO dto) throws ParseException {
         return usuarioService.criarUsuario(dto);
     }
 
