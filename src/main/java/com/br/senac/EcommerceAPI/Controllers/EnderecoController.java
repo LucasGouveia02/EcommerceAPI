@@ -1,5 +1,6 @@
 package com.br.senac.EcommerceAPI.Controllers;
 
+import com.br.senac.EcommerceAPI.DTO.EnderecoRequestDTO;
 import com.br.senac.EcommerceAPI.Services.EnderecoService;
 import com.br.senac.EcommerceAPI.Services.ViaCepService;
 import org.springframework.beans.factory.annotation.Autowired;
