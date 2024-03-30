@@ -16,5 +16,5 @@ public class UsuarioDTO {
     private String email;
     private String telefone;
     private String cpf;
-    private String dtNascimento;
+    private Date dtNascimento;
 }

@@ -1,7 +1,14 @@
 package com.br.senac.EcommerceAPI.Services;
 
+import com.br.senac.EcommerceAPI.DTO.CadastroUsuarioDTO;
+import com.br.senac.EcommerceAPI.DTO.EnderecoDTO;
 import com.br.senac.EcommerceAPI.DTO.UsuarioDTO;
+import com.br.senac.EcommerceAPI.Models.EnderecoModel;
+import com.br.senac.EcommerceAPI.Models.EnderecoUsuario;
+import com.br.senac.EcommerceAPI.Models.EnderecoUsuarioKey;
 import com.br.senac.EcommerceAPI.Models.UsuarioModel;
+import com.br.senac.EcommerceAPI.Repositories.EnderecoRepository;
+import com.br.senac.EcommerceAPI.Repositories.EnderecoUsuarioRepository;
 import com.br.senac.EcommerceAPI.Repositories.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,21 +27,44 @@ public class UsuarioService {
     @Autowired
     private UsuarioRepository usuarioRepository;
 
-    public ResponseEntity<UsuarioModel> criarUsuario(UsuarioDTO dto) throws ParseException {
+    @Autowired
+    private EnderecoRepository enderecoRepository;
 
-        UsuarioModel usuario = new UsuarioModel(dto);
+    @Autowired
+    private EnderecoUsuarioRepository enderecoUsuarioRepository;
 
-//        try {
-//            if(dto.getDataNascimento() != null) {
-//                dto.setDataNascimento(ajustarData(dto.getDataNascimento()));
-//            }
+    public ResponseEntity<UsuarioModel> criarUsuario(CadastroUsuarioDTO dto) throws ParseException {
 
-            usuarioRepository.save(usuario);
+        try {
+            if(dto.getDtNascimento() != null) {
+                dto.setDtNascimento(ajustarData(dto.getDtNascimento()));
+            }
+
+            UsuarioModel usuario = new UsuarioModel(dto);
+            UsuarioModel um = usuarioRepository.save(usuario);
+
+            EnderecoDTO enderecoDTO = new EnderecoDTO();
+            enderecoDTO.setCep(dto.getCep());
+            enderecoDTO.setLogradouro(dto.getLogradouro());
+            enderecoDTO.setBairro(dto.getBairro());
+            enderecoDTO.setNumero(dto.getNumero());
+            enderecoDTO.setCidade(dto.getCidade());
+            enderecoDTO.setUf(dto.getUf());
+
+            EnderecoModel endereco = new EnderecoModel(enderecoDTO);
+            endereco.setUsuarioId(um.getId());
+
+            EnderecoModel em = enderecoRepository.save(endereco);
+
+            EnderecoUsuarioKey euk = new EnderecoUsuarioKey(um, em);
+            EnderecoUsuario eu = new EnderecoUsuario();
+            eu.setId(euk);
+            enderecoUsuarioRepository.save(eu);
 
             return new ResponseEntity<>(usuario, HttpStatus.CREATED);
-//        } catch (ParseException e) {
-//            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-//        }
+        } catch (ParseException e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
     }
 
     private Date ajustarData(Date data) throws ParseException {

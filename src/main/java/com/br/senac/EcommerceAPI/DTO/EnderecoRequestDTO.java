@@ -8,13 +8,8 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter @Setter
-public class EnderecoDTO {
+public class EnderecoRequestDTO {
 
     private String cep;
-    private String logradouro;
-    private String bairro;
     private String numero;
-    private String cidade;
-    private String uf;
-    private Long usuarioId;
 }
