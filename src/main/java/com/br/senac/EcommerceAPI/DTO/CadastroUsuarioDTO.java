@@ -23,5 +23,4 @@ public class CadastroUsuarioDTO {
     private String numero;
     private String cidade;
     private String uf;
-//    private Long usuarioId;
 }

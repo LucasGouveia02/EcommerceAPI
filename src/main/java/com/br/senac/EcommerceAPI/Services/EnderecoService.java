@@ -2,8 +2,6 @@ package com.br.senac.EcommerceAPI.Services;
 
 import com.br.senac.EcommerceAPI.DTO.EnderecoDTO;
 import com.br.senac.EcommerceAPI.Models.EnderecoModel;
-import com.br.senac.EcommerceAPI.Models.EnderecoUsuario;
-import com.br.senac.EcommerceAPI.Models.UsuarioModel;
 import com.br.senac.EcommerceAPI.Repositories.EnderecoRepository;
 import com.br.senac.EcommerceAPI.ViaCep.ViaCepResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,9 +19,6 @@ public class EnderecoService {
 
     @Autowired
     private ViaCepService viaCepService;
-
-//    @Autowired
-//    private EnderecoUsuario enderecoUsuario;
 
     public ResponseEntity<EnderecoModel> criarEndereco(String cep, String numero) throws Exception {
 

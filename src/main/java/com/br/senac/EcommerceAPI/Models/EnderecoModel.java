@@ -30,9 +30,6 @@ public class EnderecoModel {
     private String cidade;
     @Column(nullable = false)
     private String uf;
-//    @ManyToOne
-//    @JoinColumn(name = "usuario_id")
-    private Long usuarioId;
 
     public EnderecoModel(EnderecoDTO dto) {
         this.cep = dto.getCep();
@@ -41,7 +38,6 @@ public class EnderecoModel {
         this.numero = dto.getNumero();
         this.cidade = dto.getCidade();
         this.uf = dto.getUf();
-        this.usuarioId = dto.getUsuarioId();
     }
     public EnderecoModel(CadastroUsuarioDTO dto) {
         this.cep = dto.getCep();
