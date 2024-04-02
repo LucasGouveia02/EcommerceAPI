@@ -52,7 +52,6 @@ public class UsuarioService {
             enderecoDTO.setUf(dto.getUf());
 
             EnderecoModel endereco = new EnderecoModel(enderecoDTO);
-            endereco.setUsuarioId(um.getId());
 
             EnderecoModel em = enderecoRepository.save(endereco);
 
