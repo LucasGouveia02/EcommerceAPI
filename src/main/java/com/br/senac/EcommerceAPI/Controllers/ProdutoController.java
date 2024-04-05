@@ -27,7 +27,7 @@ public class ProdutoController {
     public ResponseEntity<ProdutoDTO> cadastrarProd(
             @RequestBody ProdutoDTO produtoDto,
             @RequestParam("imagem") MultipartFile arquivo,
-            @RequestParam("imagem") MultipartFile arquivo2) throws Exception {
+            @RequestParam("outraImagem") MultipartFile arquivo2) throws Exception {
         return produtoService.criarProduto(produtoDto, arquivo, arquivo2);
     }
 }
