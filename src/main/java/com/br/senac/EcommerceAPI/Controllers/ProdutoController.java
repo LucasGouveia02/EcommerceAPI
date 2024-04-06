@@ -25,9 +25,9 @@ public class ProdutoController {
 
     @PostMapping("/cadastrarProd")
     public ResponseEntity<ProdutoDTO> cadastrarProd(
-            @RequestBody ProdutoDTO produtoDto,
-            @RequestParam("imagem") MultipartFile arquivo,
-            @RequestParam("outraImagem") MultipartFile arquivo2) throws Exception {
-        return produtoService.criarProduto(produtoDto, arquivo, arquivo2);
+            @RequestParam String produto,
+            @RequestParam("imagem") MultipartFile imagem,
+            @RequestParam("outraImagem") MultipartFile outraImagem) throws Exception {
+        return produtoService.criarProduto(produto, imagem, outraImagem);
     }
 }
