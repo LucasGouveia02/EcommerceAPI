@@ -6,6 +6,7 @@ import com.br.senac.EcommerceAPI.Models.ProdutoModel;
 import com.br.senac.EcommerceAPI.Models.URLImagensModel;
 import com.br.senac.EcommerceAPI.Repositories.ProdutoRepository;
 import com.br.senac.EcommerceAPI.Repositories.URLImagensRepository;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,33 +30,31 @@ public class ProdutoService {
     @Autowired
     private ProdutoModel produtoModel;
 
-    public ResponseEntity<ProdutoDTO> criarProduto(ProdutoDTO dto,
+    public ResponseEntity<ProdutoDTO> criarProduto(String produto,
                                                    MultipartFile arquivo1,
                                                    MultipartFile arquivo2) throws Exception {
-        ProdutoModel prd = new ProdutoModel(dto);
+        // Converte a string JSON em um objeto ProdutoDTO
+        ObjectMapper mapper = new ObjectMapper();
+        ProdutoDTO produtoDTO = mapper.readValue(produto, ProdutoDTO.class);
+        ProdutoModel prd = new ProdutoModel(produtoDTO);
         produtoModel = this.produtoRepository.save(prd);
 
         URLImagensModel urlImagensModel = new URLImagensModel();
+        URLImagensModel urlImagensModel2 = new URLImagensModel();
+
         if (arquivo1 != null){
             String imageUrl = blobStorageService.uploadImage(arquivo1);
             urlImagensModel.setUrl(imageUrl);
-            urlImagensModel.setId(produtoModel.getId());
+            urlImagensModel.setProdutoId(produtoModel.getId());
             urlImagensRepository.save(urlImagensModel);
         }
         if (arquivo2 != null){
             String imageUrl = blobStorageService.uploadImage(arquivo2);
-            urlImagensModel.setUrl(imageUrl);
-            urlImagensModel.setId(produtoModel.getId());
-            urlImagensRepository.save(urlImagensModel);
+            urlImagensModel2.setUrl(imageUrl);
+            urlImagensModel2.setProdutoId(produtoModel.getId());
+            urlImagensRepository.save(urlImagensModel2);
         }
-        return new ResponseEntity<>(dto, HttpStatus.CREATED);
-    }
-
-    public ResponseEntity processarArquivo(MultipartFile imagem) throws Exception {
-
-
-
-        return new ResponseEntity(HttpStatus.CREATED);
+        return new ResponseEntity<>(produtoDTO, HttpStatus.CREATED);
     }
 
     public ResponseEntity<List<ProdutoModel>> listarTodos() {

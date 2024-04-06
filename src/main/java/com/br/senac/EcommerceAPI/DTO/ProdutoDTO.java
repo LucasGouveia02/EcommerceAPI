@@ -15,10 +15,4 @@ public class ProdutoDTO implements Serializable {
 
     private String nome;
     private String categoria;
-    private MultipartFile imagem;
-
-    public ProdutoDTO(String nome, String categoria) {
-        this.nome = nome;
-        this.categoria = categoria;
-    }
 }
