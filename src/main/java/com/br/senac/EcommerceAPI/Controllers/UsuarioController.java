@@ -41,12 +41,6 @@ public class UsuarioController {
         return usuarioService.buscaPorNome(nome);
     }
 
-    @GetMapping("/cpf/{cpf}")
-    public ResponseEntity<UsuarioModel> buscarPorCPF(@PathVariable (value = "cpf")
-                                                         String cpf) throws Exception {
-        return usuarioService.buscaPorCPF(cpf);
-    }
-
     @PutMapping("{id}")
     public ResponseEntity<UsuarioModel> atualizarUsuario(@PathVariable (value = "id") Long id,
                                                          @RequestBody UsuarioDTO usuario) throws Exception {

@@ -40,8 +40,13 @@ public class UsuarioService {
                 dto.setDtNascimento(ajustarData(dto.getDtNascimento()));
             }
 
+            UsuarioModel usuarioExistente = usuarioRepository.buscaPorCPF(dto.getCpf());
+            if(usuarioExistente != null) {
+                return ResponseEntity.status(HttpStatus.CONFLICT).build();
+            }
+
             UsuarioModel usuario = new UsuarioModel(dto);
-            UsuarioModel um = usuarioRepository.save(usuario);
+            UsuarioModel usuarioSalvo = usuarioRepository.save(usuario);
 
             EnderecoDTO enderecoDTO = new EnderecoDTO();
             enderecoDTO.setCep(dto.getCep());
@@ -55,7 +60,7 @@ public class UsuarioService {
 
             EnderecoModel em = enderecoRepository.save(endereco);
 
-            EnderecoUsuarioKey euk = new EnderecoUsuarioKey(um, em);
+            EnderecoUsuarioKey euk = new EnderecoUsuarioKey(usuario, em);
             EnderecoUsuario eu = new EnderecoUsuario();
             eu.setId(euk);
             enderecoUsuarioRepository.save(eu);
@@ -63,6 +68,8 @@ public class UsuarioService {
             return new ResponseEntity<>(usuario, HttpStatus.CREATED);
         } catch (ParseException e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
     }
 
@@ -73,10 +80,6 @@ public class UsuarioService {
         String dataFormatada = formatter.format(data);
 
         return formatter.parse(dataFormatada);
-    }
-
-    public ResponseEntity<String> processarData(String dtNascimento) {
-        return new ResponseEntity<>(dtNascimento, HttpStatus.CREATED);
     }
 
     public ResponseEntity<List<UsuarioModel>> listarUsuarios() {
@@ -100,10 +103,10 @@ public class UsuarioService {
 
     public ResponseEntity<UsuarioModel> buscaPorCPF(String cpf) throws Exception {
         UsuarioModel c = usuarioRepository.buscaPorCPF(cpf);
-        if (c != null) {
+        if (c == null) {
             return new ResponseEntity<>(c, HttpStatus.OK);
         } else
-            throw new Exception("Cliente não encontrado");
+            throw new Exception("Cliente já cadastrado.");
     }
 
     public ResponseEntity<UsuarioModel> atualizarUsuario(Long id, UsuarioDTO dto) throws Exception {
