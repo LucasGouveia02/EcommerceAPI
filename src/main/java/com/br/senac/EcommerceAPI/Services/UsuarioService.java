@@ -3,10 +3,8 @@ package com.br.senac.EcommerceAPI.Services;
 import com.br.senac.EcommerceAPI.DTO.CadastroUsuarioDTO;
 import com.br.senac.EcommerceAPI.DTO.EnderecoDTO;
 import com.br.senac.EcommerceAPI.DTO.UsuarioDTO;
-import com.br.senac.EcommerceAPI.Models.EnderecoModel;
-import com.br.senac.EcommerceAPI.Models.EnderecoUsuario;
-import com.br.senac.EcommerceAPI.Models.EnderecoUsuarioKey;
-import com.br.senac.EcommerceAPI.Models.UsuarioModel;
+import com.br.senac.EcommerceAPI.Models.*;
+import com.br.senac.EcommerceAPI.Repositories.CredencialRepository;
 import com.br.senac.EcommerceAPI.Repositories.EnderecoRepository;
 import com.br.senac.EcommerceAPI.Repositories.EnderecoUsuarioRepository;
 import com.br.senac.EcommerceAPI.Repositories.UsuarioRepository;
@@ -33,6 +31,9 @@ public class UsuarioService {
     @Autowired
     private EnderecoUsuarioRepository enderecoUsuarioRepository;
 
+    @Autowired
+    private CredencialRepository credencialRepository;
+
     public ResponseEntity<UsuarioModel> criarUsuario(CadastroUsuarioDTO dto) throws ParseException {
 
         try {
@@ -48,7 +49,9 @@ public class UsuarioService {
             UsuarioModel usuario = new UsuarioModel(dto);
             UsuarioModel usuarioSalvo = usuarioRepository.save(usuario);
 
+
             EnderecoDTO enderecoDTO = new EnderecoDTO();
+
             enderecoDTO.setCep(dto.getCep());
             enderecoDTO.setLogradouro(dto.getLogradouro());
             enderecoDTO.setBairro(dto.getBairro());
@@ -57,6 +60,13 @@ public class UsuarioService {
             enderecoDTO.setUf(dto.getUf());
 
             EnderecoModel endereco = new EnderecoModel(enderecoDTO);
+
+            CredencialModel credencialModel = new CredencialModel();
+            credencialModel.setEmail(dto.getEmail());
+            credencialModel.setSenha(dto.getSenha());
+            credencialModel.setAdmin(false);
+            credencialModel.setIdUsuario(usuarioSalvo.getId());
+            credencialRepository.save(credencialModel);
 
             EnderecoModel em = enderecoRepository.save(endereco);
 
@@ -113,7 +123,6 @@ public class UsuarioService {
         UsuarioModel cE = usuarioRepository.findById(id).orElseThrow(
                 () -> new Exception("Cliente não encontrado"));
         cE.setNome(dto.getNome());
-        cE.setEmail(dto.getEmail());
         cE.setTelefone(dto.getTelefone());
         cE.setCpf(dto.getCpf());
         cE.setDtNascimento(dto.getDtNascimento());
