@@ -30,4 +30,6 @@ public class CredencialModel {
         this.idUsuario = dto.getIdUsuario();
         this.admin = dto.isAdmin();
     }
+
+
 }

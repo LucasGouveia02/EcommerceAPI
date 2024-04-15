@@ -14,6 +14,7 @@ public class CadastroUsuarioDTO {
 
     private String nome;
     private String email;
+    private String senha;
     private String telefone;
     private String cpf;
     private Date dtNascimento;
@@ -23,4 +24,5 @@ public class CadastroUsuarioDTO {
     private String numero;
     private String cidade;
     private String uf;
+
 }

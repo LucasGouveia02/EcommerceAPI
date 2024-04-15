@@ -23,8 +23,6 @@ public class UsuarioModel {
     @Column(nullable = false)
     private String nome;
     @Column(nullable = false)
-    private String email;
-    @Column(nullable = false)
     private String telefone;
     @Column(nullable = false, unique = true)
     private String cpf;
@@ -33,14 +31,12 @@ public class UsuarioModel {
 
     public UsuarioModel(UsuarioDTO dto) {
         this.nome = dto.getNome();
-        this.email = dto.getEmail();
         this.telefone = dto.getTelefone();
         this.cpf = dto.getCpf();
         this.dtNascimento = dto.getDtNascimento();
     }
     public UsuarioModel(CadastroUsuarioDTO dto) {
         this.nome = dto.getNome();
-        this.email = dto.getEmail();
         this.telefone = dto.getTelefone();
         this.cpf = dto.getCpf();
         this.dtNascimento = dto.getDtNascimento();
