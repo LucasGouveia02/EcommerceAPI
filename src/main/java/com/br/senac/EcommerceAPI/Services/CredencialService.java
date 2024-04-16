@@ -21,7 +21,7 @@ public class CredencialService {
     private Boolean autenticado;
 
     public ResponseEntity<Boolean> autenticarLogin(CredencialDTO credencialDTO){
-        CredencialModel login = credencialRepository.findByUsuario(credencialDTO.getIdUsuario());
+        CredencialModel login = credencialRepository.findByUsuario(credencialDTO.getEmail());
 
         if(credencialDTO.getEmail().equalsIgnoreCase(login.getEmail()) && credencialDTO.getSenha().equalsIgnoreCase(login.getSenha())){
             autenticado = true;
