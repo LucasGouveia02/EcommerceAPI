@@ -4,10 +4,7 @@ import com.br.senac.EcommerceAPI.DTO.CredencialDTO;
 import com.br.senac.EcommerceAPI.Services.CredencialService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @CrossOrigin("*")
@@ -17,8 +14,8 @@ public class CredencialController {
     @Autowired
     private CredencialService credencialService;
 
-    @GetMapping
-    public ResponseEntity<Boolean> autenticarLogin(CredencialDTO credencialDTO){
+    @PostMapping
+    public ResponseEntity<Boolean> autenticarLogin(@RequestBody CredencialDTO credencialDTO){
         return credencialService.autenticarLogin(credencialDTO);
     }
 }
