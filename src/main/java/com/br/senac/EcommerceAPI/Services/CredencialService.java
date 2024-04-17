@@ -22,16 +22,22 @@ public class CredencialService {
 
     public ResponseEntity<Boolean> autenticarLogin(CredencialDTO credencialDTO){
         CredencialModel login = credencialRepository.findByUsuario(credencialDTO.getEmail());
+        try{
+            if(login != null){
+                if(credencialDTO.getEmail().equalsIgnoreCase(login.getEmail()) && credencialDTO.getSenha().equalsIgnoreCase(login.getSenha())){
+                    autenticado = true;
+                    return new ResponseEntity<>(autenticado, HttpStatus.OK);
+                }
+                else{
+                    autenticado = false;
+                    return new ResponseEntity<>(autenticado, HttpStatus.FORBIDDEN);
+                }
+            } else{
+                throw new Exception();//tratando uma excessão
+            }
 
-        if(credencialDTO.getEmail().equalsIgnoreCase(login.getEmail()) && credencialDTO.getSenha().equalsIgnoreCase(login.getSenha())){
-            autenticado = true;
-            return new ResponseEntity<>(autenticado, HttpStatus.OK);
-        }
-        else{
-            autenticado = false;
-            return new ResponseEntity<>(autenticado, HttpStatus.FORBIDDEN);
-        }
-
+        }catch (Exception e){
+            return new ResponseEntity<>(false, HttpStatus.FORBIDDEN);}//retorna o usuário não encontrado
     }
 
 }
