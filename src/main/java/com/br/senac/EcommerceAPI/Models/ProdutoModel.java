@@ -27,10 +27,28 @@ public class ProdutoModel {
     private String nome;
     @Column(nullable = false, name = "categoria")
     private String categoria;
+    @Column(nullable = false, name = "preco")
+    private BigDecimal preco;
+    @Column(nullable = false, name = "marca")
+    private String marca;
+    @Column(nullable = false, name = "tamanho")
+    private String tamanho;
+    @Column(nullable = false, name = "unidade")
+    private String unidade;
+    @Column(nullable = false, name = "estoque")
+    private Integer estoque;
+    @Column(nullable = false, name = "descricao")
+    private String descricao;
 
     public ProdutoModel(ProdutoDTO dto) {
         this.nome = dto.getNome();
         this.categoria = dto.getCategoria();
+        this.preco = dto.getPreco();
+        this.marca = dto.getMarca();
+        this.tamanho = dto.getTamanho();
+        this.unidade = dto.getUnidade();
+        this.estoque = dto.getEstoque();
+        this.descricao = dto.getDescricao();
     }
 
     @Override

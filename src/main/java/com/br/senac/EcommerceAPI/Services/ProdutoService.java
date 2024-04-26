@@ -31,8 +31,10 @@ public class ProdutoService {
     private ProdutoModel produtoModel;
 
     public ResponseEntity<ProdutoDTO> criarProduto(String produto,
-                                                   MultipartFile arquivo1,
-                                                   MultipartFile arquivo2) throws Exception {
+                                                   MultipartFile imagem,
+                                                   MultipartFile imagem2,
+                                                   MultipartFile imagem3,
+                                                   MultipartFile imagem4) throws Exception {
         // Converte a string JSON em um objeto ProdutoDTO
         ObjectMapper mapper = new ObjectMapper();
         ProdutoDTO produtoDTO = mapper.readValue(produto, ProdutoDTO.class);
@@ -41,18 +43,32 @@ public class ProdutoService {
 
         URLImagensModel urlImagensModel = new URLImagensModel();
         URLImagensModel urlImagensModel2 = new URLImagensModel();
+        URLImagensModel urlImagensModel3 = new URLImagensModel();
+        URLImagensModel urlImagensModel4 = new URLImagensModel();
 
-        if (arquivo1 != null){
-            String imageUrl = blobStorageService.uploadImage(arquivo1);
+        if (imagem != null){
+            String imageUrl = blobStorageService.uploadImage(imagem);
             urlImagensModel.setUrl(imageUrl);
             urlImagensModel.setProdutoId(produtoModel.getId());
             urlImagensRepository.save(urlImagensModel);
         }
-        if (arquivo2 != null){
-            String imageUrl = blobStorageService.uploadImage(arquivo2);
+        if (imagem2 != null){
+            String imageUrl = blobStorageService.uploadImage(imagem2);
             urlImagensModel2.setUrl(imageUrl);
             urlImagensModel2.setProdutoId(produtoModel.getId());
             urlImagensRepository.save(urlImagensModel2);
+        }
+        if (imagem3 != null){
+            String imageUrl = blobStorageService.uploadImage(imagem3);
+            urlImagensModel3.setUrl(imageUrl);
+            urlImagensModel3.setProdutoId(produtoModel.getId());
+            urlImagensRepository.save(urlImagensModel3);
+        }
+        if (imagem4 != null){
+            String imageUrl = blobStorageService.uploadImage(imagem4);
+            urlImagensModel4.setUrl(imageUrl);
+            urlImagensModel4.setProdutoId(produtoModel.getId());
+            urlImagensRepository.save(urlImagensModel4);
         }
         return new ResponseEntity<>(produtoDTO, HttpStatus.CREATED);
     }

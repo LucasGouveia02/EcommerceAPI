@@ -7,6 +7,7 @@ import lombok.Setter;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 @Getter @Setter
 @AllArgsConstructor
@@ -14,5 +15,11 @@ import java.io.Serializable;
 public class ProdutoDTO implements Serializable {
 
     private String nome;
+    private BigDecimal preco;
     private String categoria;
+    private String marca;
+    private String tamanho;
+    private String unidade;
+    private Integer estoque;
+    private String descricao;
 }
