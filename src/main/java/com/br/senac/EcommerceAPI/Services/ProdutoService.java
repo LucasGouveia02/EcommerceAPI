@@ -1,6 +1,7 @@
 package com.br.senac.EcommerceAPI.Services;
 
 import com.br.senac.EcommerceAPI.BlobsAzure.BlobStorageService;
+import com.br.senac.EcommerceAPI.DTO.ProdutoAllInfoDTO;
 import com.br.senac.EcommerceAPI.DTO.ProdutoDTO;
 import com.br.senac.EcommerceAPI.Models.ProdutoModel;
 import com.br.senac.EcommerceAPI.Models.URLImagensModel;
@@ -13,6 +14,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.math.BigInteger;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -49,32 +52,48 @@ public class ProdutoService {
         if (imagem != null){
             String imageUrl = blobStorageService.uploadImage(imagem);
             urlImagensModel.setUrl(imageUrl);
-            urlImagensModel.setProdutoId(produtoModel.getId());
+            urlImagensModel.setProdutoId(produtoModel);
             urlImagensRepository.save(urlImagensModel);
         }
         if (imagem2 != null){
             String imageUrl = blobStorageService.uploadImage(imagem2);
             urlImagensModel2.setUrl(imageUrl);
-            urlImagensModel2.setProdutoId(produtoModel.getId());
+            urlImagensModel2.setProdutoId(produtoModel);
             urlImagensRepository.save(urlImagensModel2);
         }
         if (imagem3 != null){
             String imageUrl = blobStorageService.uploadImage(imagem3);
             urlImagensModel3.setUrl(imageUrl);
-            urlImagensModel3.setProdutoId(produtoModel.getId());
+            urlImagensModel3.setProdutoId(produtoModel);
             urlImagensRepository.save(urlImagensModel3);
         }
         if (imagem4 != null){
             String imageUrl = blobStorageService.uploadImage(imagem4);
             urlImagensModel4.setUrl(imageUrl);
-            urlImagensModel4.setProdutoId(produtoModel.getId());
+            urlImagensModel4.setProdutoId(produtoModel);
             urlImagensRepository.save(urlImagensModel4);
         }
         return new ResponseEntity<>(produtoDTO, HttpStatus.CREATED);
     }
 
-    public ResponseEntity<List<ProdutoModel>> listarTodos() {
-        List<ProdutoModel> listaProduto = produtoRepository.findAll();
-        return new ResponseEntity<>(listaProduto, HttpStatus.OK);
+    public ResponseEntity<List<ProdutoAllInfoDTO>> listarPorCategoria(String category) {
+        List<ProdutoAllInfoDTO> listaAllProducts = new ArrayList<>();
+        List<String> listaUrl = new ArrayList<>();
+        List<ProdutoModel> listaProduto = produtoRepository.findByCategoryName(category);
+        ProdutoAllInfoDTO produtoAllInfoDTO;
+        for (ProdutoModel produtoModel : listaProduto) {
+            List<URLImagensModel> listaUrlImagesModel = urlImagensRepository.findByProductId(produtoModel);
+            produtoAllInfoDTO = new ProdutoAllInfoDTO(produtoModel.getNome(),
+                    produtoModel.getPreco(), produtoModel.getCategoria(), produtoModel.getMarca(),
+                    produtoModel.getTamanho(), produtoModel.getUnidade(), produtoModel.getEstoque(),
+                    produtoModel.getDescricao());
+            for (URLImagensModel urlImagensModel : listaUrlImagesModel) {
+                listaUrl.add(urlImagensModel.getUrl());
+            }
+            produtoAllInfoDTO.setUrl(listaUrl);
+            listaUrl = new ArrayList<>();
+            listaAllProducts.add(produtoAllInfoDTO);
+        }
+        return new ResponseEntity<>(listaAllProducts, HttpStatus.OK);
     }
 }

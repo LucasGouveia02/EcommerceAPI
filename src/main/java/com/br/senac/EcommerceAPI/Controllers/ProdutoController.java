@@ -1,5 +1,6 @@
 package com.br.senac.EcommerceAPI.Controllers;
 
+import com.br.senac.EcommerceAPI.DTO.ProdutoAllInfoDTO;
 import com.br.senac.EcommerceAPI.DTO.ProdutoDTO;
 import com.br.senac.EcommerceAPI.Models.ProdutoModel;
 import com.br.senac.EcommerceAPI.Services.ProdutoService;
@@ -19,8 +20,8 @@ public class ProdutoController {
     private ProdutoService produtoService;
 
     @GetMapping("/produtos")
-    public ResponseEntity<List<ProdutoModel>> listaProdutos() {
-        return produtoService.listarTodos();
+    public ResponseEntity<List<ProdutoAllInfoDTO>> listaProdutos(@RequestParam("category") String category) {
+        return produtoService.listarPorCategoria(category);
     }
 
     @PostMapping("/cadastrarProd")
