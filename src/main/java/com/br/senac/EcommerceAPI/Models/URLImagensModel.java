@@ -18,6 +18,7 @@ public class URLImagensModel {
     private Long id;
     @Column(nullable = false)
     private String url;
-    @Column(nullable = false)
-    private Long produtoId;
+    @ManyToOne
+    @JoinColumn(name = "produto_id")
+    private ProdutoModel produtoId;
 }
