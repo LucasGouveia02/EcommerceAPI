@@ -1,6 +1,7 @@
 package com.br.senac.EcommerceAPI.Controllers;
 
 import com.br.senac.EcommerceAPI.DTO.CredencialDTO;
+import com.br.senac.EcommerceAPI.Models.EnderecoModel;
 import com.br.senac.EcommerceAPI.Services.CredencialService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,11 +21,17 @@ public class CredencialController {
     @PostMapping
     public ResponseEntity<Boolean> autenticarLogin(@RequestBody CredencialDTO credencialDTO){
         credencialServiceAutenticado.setAutenticado(credencialService.verificarAutenticacao(credencialDTO));
+        credencialServiceAutenticado.setCredencialModel(credencialService.retornaUsuario(credencialDTO));
         return credencialService.autenticarLogin(credencialDTO);
     }
 
     @GetMapping("/autenticacao")
     public ResponseEntity<CredencialService> verificarAutenticacao() {
         return new ResponseEntity<>(credencialServiceAutenticado, HttpStatus.OK);
+    }
+
+    @GetMapping("endereco")
+    public ResponseEntity<EnderecoModel> retornoEnderecoUsuario(@RequestParam("id") Long id) throws Exception {
+        return credencialService.buscarEnderecoUsuarioLogado(id);
     }
 }
