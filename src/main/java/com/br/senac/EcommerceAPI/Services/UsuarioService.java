@@ -34,6 +34,9 @@ public class UsuarioService {
     @Autowired
     private CredencialRepository credencialRepository;
 
+    private UsuarioModel usuario;
+    private EnderecoUsuario endereco;
+
     public ResponseEntity<UsuarioModel> criarUsuario(CadastroUsuarioDTO dto) throws ParseException {
 
         try {
@@ -91,6 +94,31 @@ public class UsuarioService {
 
         return formatter.parse(dataFormatada);
     }
+
+//    private EnderecoModel getEnderecoDoUsuarioLogado() {
+//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//        if (!(authentication instanceof AnonymousAuthenticationToken)) {
+//            String email = authentication.getName(); // Obtém o email do usuário autenticado
+//            UsuarioModel usuario = usuarioRepository.findByEmail(email);
+//            if (usuario != null) {
+////                EnderecoUsuario enderecoUsuario = enderecoUsuarioRepository.findByUsuario(usuario);
+////                if (enderecoUsuario != null) {
+////                    return enderecoUsuario.getId().getEnderecoId();
+////                }
+//            }
+//        }
+//        return null;
+//    }
+//
+//    public ResponseEntity<String> obterEnderecoDoUsuarioLogado() {
+//        EnderecoModel endereco = getEnderecoDoUsuarioLogado();
+//        if (endereco != null) {
+//            String enderecoCompleto = endereco.getLogradouro() + ", " + endereco.getNumero() + ", " + endereco.getBairro();
+//            return new ResponseEntity<>(enderecoCompleto, HttpStatus.OK);
+//        } else {
+//            return new ResponseEntity<>("Endereço não encontrado para o usuário logado", HttpStatus.NOT_FOUND);
+//        }
+//    }
 
     public ResponseEntity<List<UsuarioModel>> listarUsuarios() {
         List<UsuarioModel> listaCliente = usuarioRepository.findAll();
