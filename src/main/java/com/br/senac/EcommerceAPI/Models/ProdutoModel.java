@@ -1,6 +1,9 @@
 package com.br.senac.EcommerceAPI.Models;
 
+import com.br.senac.EcommerceAPI.DTO.ProdutoAllInfoDTO;
 import com.br.senac.EcommerceAPI.DTO.ProdutoDTO;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -32,23 +35,21 @@ public class ProdutoModel {
     private BigDecimal preco;
     @Column(nullable = false, name = "marca")
     private String marca;
-    @Column(nullable = false, name = "tamanho")
-    private String tamanho;
     @Column(nullable = false, name = "unidade")
     private String unidade;
-    @Column(nullable = false, name = "estoque")
-    private Integer estoque;
     @Column(nullable = false, name = "descricao")
     private String descricao;
+    @OneToMany(mappedBy = "produtoId", cascade = CascadeType.ALL)
+    private List<TamanhoEstoqueModel> tamanhosEstoque;
+    @OneToMany(mappedBy = "produtoId", cascade = CascadeType.ALL)
+    private List<URLImagensModel> urlImagensModels;
 
     public ProdutoModel(ProdutoDTO dto) {
         this.nome = dto.getNome();
         this.categoria = dto.getCategoria();
         this.preco = dto.getPreco();
         this.marca = dto.getMarca();
-        this.tamanho = dto.getTamanho();
         this.unidade = dto.getUnidade();
-        this.estoque = dto.getEstoque();
         this.descricao = dto.getDescricao();
     }
 
