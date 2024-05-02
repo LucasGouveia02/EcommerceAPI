@@ -20,7 +20,7 @@ public class ProdutoController {
     private ProdutoService produtoService;
 
     @GetMapping("/produtos")
-    public ResponseEntity<List<ProdutoAllInfoDTO>> listaProdutos(@RequestParam("category") String category) {
+    public ResponseEntity<List<ProdutoModel>> listaProdutos(@RequestParam("category") String category) {
         return produtoService.listarPorCategoria(category);
     }
 

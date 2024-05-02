@@ -11,6 +11,4 @@ import java.util.List;
 
 @Repository
 public interface URLImagensRepository extends JpaRepository<URLImagensModel, Long> {
-    @Query("SELECT u FROM URLImagensModel u WHERE u.produtoId = :productId")
-    List<URLImagensModel> findByProductId(@Param("productId") ProdutoModel productId);
 }

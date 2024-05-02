@@ -4,8 +4,10 @@ import com.br.senac.EcommerceAPI.BlobsAzure.BlobStorageService;
 import com.br.senac.EcommerceAPI.DTO.ProdutoAllInfoDTO;
 import com.br.senac.EcommerceAPI.DTO.ProdutoDTO;
 import com.br.senac.EcommerceAPI.Models.ProdutoModel;
+import com.br.senac.EcommerceAPI.Models.TamanhoEstoqueModel;
 import com.br.senac.EcommerceAPI.Models.URLImagensModel;
 import com.br.senac.EcommerceAPI.Repositories.ProdutoRepository;
+import com.br.senac.EcommerceAPI.Repositories.TamanhoEstoqueRepository;
 import com.br.senac.EcommerceAPI.Repositories.URLImagensRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +16,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,6 +34,9 @@ public class ProdutoService {
     @Autowired
     private ProdutoModel produtoModel;
 
+    @Autowired
+    private TamanhoEstoqueRepository tamanhoEstoqueRepository;
+
     public ResponseEntity<ProdutoDTO> criarProduto(String produto,
                                                    MultipartFile imagem,
                                                    MultipartFile imagem2,
@@ -44,6 +48,14 @@ public class ProdutoService {
         ProdutoModel prd = new ProdutoModel(produtoDTO);
         produtoModel = this.produtoRepository.save(prd);
 
+        // Salvando os TamanhoEstoqueModel associados ao ProdutoModel
+        for (TamanhoEstoqueModel tamanhoEstoque : produtoDTO.getTamanhosEstoque()) {
+            // Definindo o ProdutoModel como proprietário do relacionamento
+            tamanhoEstoque.setProdutoId(produtoModel);
+
+            // Salvando o TamanhoEstoqueModel no banco de dados
+            tamanhoEstoqueRepository.save(tamanhoEstoque);
+        }
         URLImagensModel urlImagensModel = new URLImagensModel();
         URLImagensModel urlImagensModel2 = new URLImagensModel();
         URLImagensModel urlImagensModel3 = new URLImagensModel();
@@ -76,24 +88,8 @@ public class ProdutoService {
         return new ResponseEntity<>(produtoDTO, HttpStatus.CREATED);
     }
 
-    public ResponseEntity<List<ProdutoAllInfoDTO>> listarPorCategoria(String category) {
-        List<ProdutoAllInfoDTO> listaAllProducts = new ArrayList<>();
-        List<String> listaUrl = new ArrayList<>();
+    public ResponseEntity<List<ProdutoModel>> listarPorCategoria(String category) {
         List<ProdutoModel> listaProduto = produtoRepository.findByCategoryName(category);
-        ProdutoAllInfoDTO produtoAllInfoDTO;
-        for (ProdutoModel produtoModel : listaProduto) {
-            List<URLImagensModel> listaUrlImagesModel = urlImagensRepository.findByProductId(produtoModel);
-            produtoAllInfoDTO = new ProdutoAllInfoDTO(produtoModel.getNome(),
-                    produtoModel.getPreco(), produtoModel.getCategoria(), produtoModel.getMarca(),
-                    produtoModel.getTamanho(), produtoModel.getUnidade(), produtoModel.getEstoque(),
-                    produtoModel.getDescricao());
-            for (URLImagensModel urlImagensModel : listaUrlImagesModel) {
-                listaUrl.add(urlImagensModel.getUrl());
-            }
-            produtoAllInfoDTO.setUrl(listaUrl);
-            listaUrl = new ArrayList<>();
-            listaAllProducts.add(produtoAllInfoDTO);
-        }
-        return new ResponseEntity<>(listaAllProducts, HttpStatus.OK);
+        return new ResponseEntity<>(listaProduto, HttpStatus.OK);
     }
 }

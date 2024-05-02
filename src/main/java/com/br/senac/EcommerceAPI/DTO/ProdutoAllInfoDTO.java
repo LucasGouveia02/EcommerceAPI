@@ -1,5 +1,8 @@
 package com.br.senac.EcommerceAPI.DTO;
 
+import com.br.senac.EcommerceAPI.Models.ProdutoModel;
+import com.br.senac.EcommerceAPI.Models.TamanhoEstoqueModel;
+import com.br.senac.EcommerceAPI.Models.URLImagensModel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,22 +18,8 @@ public class ProdutoAllInfoDTO {
     private BigDecimal preco;
     private String categoria;
     private String marca;
-    private String tamanho;
+    private List<TamanhoEstoqueModel> tamanhosEstoque;
+    private List<URLImagensModel> urlImagensModels;
     private String unidade;
-    private Integer estoque;
     private String descricao;
-    private List<String> url;
-
-    public ProdutoAllInfoDTO(String nome, BigDecimal preco, String categoria,
-                             String marca, String tamanho, String unidade,
-                             Integer estoque, String descricao) {
-        this.nome = nome;
-        this.preco = preco;
-        this.categoria = categoria;
-        this.marca = marca;
-        this.tamanho = tamanho;
-        this.unidade = unidade;
-        this.estoque = estoque;
-        this.descricao = descricao;
-    }
 }
