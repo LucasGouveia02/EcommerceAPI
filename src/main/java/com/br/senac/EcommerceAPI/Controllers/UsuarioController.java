@@ -29,7 +29,7 @@ public class UsuarioController {
         return usuarioService.listarUsuarios();
     }
 
-    @GetMapping("{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<UsuarioModel> buscarPorId(@PathVariable (value = "id")
                                                         Long id) throws Exception {
         return usuarioService.buscaPorId(id);
