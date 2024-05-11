@@ -1,6 +1,10 @@
 package com.br.senac.EcommerceAPI.Controllers;
 
+import com.br.senac.EcommerceAPI.DTO.CredencialDTO;
+import com.br.senac.EcommerceAPI.DTO.EnderecoDTO;
 import com.br.senac.EcommerceAPI.DTO.EnderecoRequestDTO;
+import com.br.senac.EcommerceAPI.DTO.NovoEnderecoDTO;
+import com.br.senac.EcommerceAPI.Models.EnderecoModel;
 import com.br.senac.EcommerceAPI.Services.EnderecoService;
 import com.br.senac.EcommerceAPI.Services.ViaCepService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +27,10 @@ public class EnderecoController {
     public ResponseEntity<String> criarEndereco(@RequestBody EnderecoRequestDTO requestDTO) throws Exception {
         var response = enderecoService.criarEndereco(requestDTO.getCep(), requestDTO.getNumero());
         return new ResponseEntity<String>(String.valueOf(response), HttpStatus.CREATED);
+    }
 
+    @PostMapping("/novo")
+    public ResponseEntity<EnderecoModel> salvarNovoEndereco(@RequestBody NovoEnderecoDTO dto) throws Exception {
+        return enderecoService.salvarNovoEndereco(dto);
     }
 }
