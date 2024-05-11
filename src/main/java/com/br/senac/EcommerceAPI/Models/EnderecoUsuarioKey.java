@@ -22,4 +22,5 @@ public class EnderecoUsuarioKey {
     @ManyToOne
     @JoinColumn(name = "fk_endereco_id")
     private EnderecoModel enderecoId;
+
 }

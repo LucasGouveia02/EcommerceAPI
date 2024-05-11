@@ -1,8 +1,12 @@
 package com.br.senac.EcommerceAPI.Services;
 
+import com.br.senac.EcommerceAPI.DTO.CredencialDTO;
 import com.br.senac.EcommerceAPI.DTO.EnderecoDTO;
-import com.br.senac.EcommerceAPI.Models.EnderecoModel;
+import com.br.senac.EcommerceAPI.DTO.NovoEnderecoDTO;
+import com.br.senac.EcommerceAPI.Models.*;
 import com.br.senac.EcommerceAPI.Repositories.EnderecoRepository;
+import com.br.senac.EcommerceAPI.Repositories.EnderecoUsuarioRepository;
+import com.br.senac.EcommerceAPI.Repositories.UsuarioRepository;
 import com.br.senac.EcommerceAPI.ViaCep.ViaCepResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,6 +23,15 @@ public class EnderecoService {
 
     @Autowired
     private ViaCepService viaCepService;
+
+    @Autowired
+    private CredencialService credencialService;
+
+    @Autowired
+    private UsuarioRepository usuarioRepository;
+
+    @Autowired
+    private EnderecoUsuarioRepository enderecoUsuarioRepository;
 
     public ResponseEntity<EnderecoModel> criarEndereco(String cep, String numero) throws Exception {
 
@@ -38,6 +51,29 @@ public class EnderecoService {
             return new ResponseEntity<>(endereco, HttpStatus.CREATED);
         } else
             throw new Exception("Erro ao cadastrar o endereço");
+    }
+
+    public ResponseEntity<EnderecoModel> salvarNovoEndereco(NovoEnderecoDTO dto) throws Exception {
+
+            EnderecoModel endereco = new EnderecoModel();
+
+            endereco.setCep(dto.getCep());
+            endereco.setLogradouro(dto.getLogradouro());
+            endereco.setBairro(dto.getBairro());
+            endereco.setNumero(dto.getNumero());
+            endereco.setCidade(dto.getCidade());
+            endereco.setUf(dto.getUf());
+            EnderecoModel enderecoSalvo = enderecoRepository.save(endereco);
+
+            UsuarioModel usuarioModel = new UsuarioModel();
+            usuarioModel.setId(dto.getIdUsuario());
+
+            EnderecoUsuarioKey key = new EnderecoUsuarioKey(usuarioModel, enderecoSalvo);
+            EnderecoUsuario eu = new EnderecoUsuario();
+            eu.setId(key);
+            enderecoUsuarioRepository.save(eu);
+
+            return new ResponseEntity<>(enderecoSalvo, HttpStatus.CREATED);
     }
 
     public ResponseEntity<List<EnderecoModel>> listarEnderecos() {
