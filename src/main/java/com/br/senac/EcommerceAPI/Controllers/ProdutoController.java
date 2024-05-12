@@ -1,6 +1,5 @@
 package com.br.senac.EcommerceAPI.Controllers;
 
-import com.br.senac.EcommerceAPI.DTO.ProdutoAllInfoDTO;
 import com.br.senac.EcommerceAPI.DTO.ProdutoDTO;
 import com.br.senac.EcommerceAPI.Models.ProdutoModel;
 import com.br.senac.EcommerceAPI.Services.ProdutoService;
@@ -32,5 +31,10 @@ public class ProdutoController {
             @RequestParam("imagem3") MultipartFile imagem3,
             @RequestParam("imagem4") MultipartFile imagem4) throws Exception {
         return produtoService.criarProduto(produto, imagem, imagem2, imagem3, imagem4);
+    }
+
+    @GetMapping("produtos/{id}")
+    public ResponseEntity<ProdutoModel> listarProdID(@RequestParam("id") Long id) throws Exception {
+        return produtoService.buscaPorId(id);
     }
 }
