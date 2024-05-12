@@ -12,6 +12,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Getter @Setter
 @Service
 public class CredencialService {
@@ -69,17 +72,26 @@ public class CredencialService {
         return null;
     }
 
-    public ResponseEntity<EnderecoModel> buscarEnderecoUsuarioLogado(Long id) throws Exception {
+    public ResponseEntity<List<EnderecoModel>> buscarEnderecoUsuarioLogado(Long id) throws Exception {
         try {
             UsuarioModel usuarioModel = new UsuarioModel();
             usuarioModel.setId(id);
+            List<EnderecoUsuario> enderecosRetornados = enderecoRepository.retornoEnderecoPorUsuario(usuarioModel);
 
-        EnderecoUsuario enderecoRetornado = enderecoRepository.retornoEnderecoPorUsuario(usuarioModel);
-            EnderecoModel enderecoModel = enderecoRetornado.getId().getEnderecoId();
-            return new ResponseEntity<>(enderecoModel, HttpStatus.OK);
+            if (!enderecosRetornados.isEmpty()) {
+                List<EnderecoModel> enderecoModels = new ArrayList<>();
+
+                for (EnderecoUsuario enderecoUsuario : enderecosRetornados) {
+                    enderecoModels.add(enderecoUsuario.getId().getEnderecoId());
+                }
+
+                return new ResponseEntity<>(enderecoModels, HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
         } catch (Exception e) {
-            System.out.println("Endereço não encontrado!");
+            System.out.println("Erro ao buscar endereço: " + e.getMessage());
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        return null;
     }
 }

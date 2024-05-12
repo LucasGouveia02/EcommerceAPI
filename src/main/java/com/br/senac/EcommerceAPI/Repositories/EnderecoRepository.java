@@ -8,6 +8,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface EnderecoRepository extends JpaRepository<EnderecoModel, Long> {
 
@@ -17,5 +19,5 @@ public interface EnderecoRepository extends JpaRepository<EnderecoModel, Long> {
     @Query("SELECT e " +
             "FROM EnderecoUsuario e " +
             "WHERE e.id.usuarioId = :usuarioId")
-    EnderecoUsuario retornoEnderecoPorUsuario(@Param("usuarioId") UsuarioModel id);
+    List<EnderecoUsuario> retornoEnderecoPorUsuario(@Param("usuarioId") UsuarioModel id);
 }
