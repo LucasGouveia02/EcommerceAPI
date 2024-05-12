@@ -1,6 +1,5 @@
 package com.br.senac.EcommerceAPI.Controllers;
 
-import com.br.senac.EcommerceAPI.DTO.ProdutoAllInfoDTO;
 import com.br.senac.EcommerceAPI.DTO.ProdutoDTO;
 import com.br.senac.EcommerceAPI.Models.ProdutoModel;
 import com.br.senac.EcommerceAPI.Services.ProdutoService;
@@ -13,13 +12,13 @@ import java.util.List;
 
 @RestController
 @CrossOrigin("*")
-@RequestMapping("/api")
+@RequestMapping("/api/produtos")
 public class ProdutoController {
 
     @Autowired
     private ProdutoService produtoService;
 
-    @GetMapping("/produtos")
+    @GetMapping
     public ResponseEntity<List<ProdutoModel>> listaProdutos(@RequestParam("category") String category) {
         return produtoService.listarPorCategoria(category);
     }
@@ -32,5 +31,10 @@ public class ProdutoController {
             @RequestParam("imagem3") MultipartFile imagem3,
             @RequestParam("imagem4") MultipartFile imagem4) throws Exception {
         return produtoService.criarProduto(produto, imagem, imagem2, imagem3, imagem4);
+    }
+
+    @GetMapping("{id}")
+    public ResponseEntity<ProdutoModel> listarProdID(@PathVariable("id") Long id) throws Exception {
+        return produtoService.buscaPorId(id);
     }
 }

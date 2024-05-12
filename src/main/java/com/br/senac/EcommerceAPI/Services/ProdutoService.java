@@ -6,6 +6,7 @@ import com.br.senac.EcommerceAPI.DTO.ProdutoDTO;
 import com.br.senac.EcommerceAPI.Models.ProdutoModel;
 import com.br.senac.EcommerceAPI.Models.TamanhoEstoqueModel;
 import com.br.senac.EcommerceAPI.Models.URLImagensModel;
+import com.br.senac.EcommerceAPI.Models.UsuarioModel;
 import com.br.senac.EcommerceAPI.Repositories.ProdutoRepository;
 import com.br.senac.EcommerceAPI.Repositories.TamanhoEstoqueRepository;
 import com.br.senac.EcommerceAPI.Repositories.URLImagensRepository;
@@ -91,5 +92,11 @@ public class ProdutoService {
     public ResponseEntity<List<ProdutoModel>> listarPorCategoria(String category) {
         List<ProdutoModel> listaProduto = produtoRepository.findByCategoryName(category);
         return new ResponseEntity<>(listaProduto, HttpStatus.OK);
+    }
+
+    public ResponseEntity<ProdutoModel> buscaPorId(Long id) throws Exception{
+        ProdutoModel c = produtoRepository.findById(id).orElseThrow(
+                () -> new Exception("Produto não encontrado"));
+        return new ResponseEntity<>(c, HttpStatus.OK);
     }
 }
