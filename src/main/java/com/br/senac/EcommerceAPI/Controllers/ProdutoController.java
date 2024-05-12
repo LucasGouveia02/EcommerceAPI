@@ -12,13 +12,13 @@ import java.util.List;
 
 @RestController
 @CrossOrigin("*")
-@RequestMapping("/api")
+@RequestMapping("/api/produtos")
 public class ProdutoController {
 
     @Autowired
     private ProdutoService produtoService;
 
-    @GetMapping("/produtos")
+    @GetMapping
     public ResponseEntity<List<ProdutoModel>> listaProdutos(@RequestParam("category") String category) {
         return produtoService.listarPorCategoria(category);
     }
@@ -33,8 +33,8 @@ public class ProdutoController {
         return produtoService.criarProduto(produto, imagem, imagem2, imagem3, imagem4);
     }
 
-    @GetMapping("produtos/{id}")
-    public ResponseEntity<ProdutoModel> listarProdID(@RequestParam("id") Long id) throws Exception {
+    @GetMapping("{id}")
+    public ResponseEntity<ProdutoModel> listarProdID(@PathVariable("id") Long id) throws Exception {
         return produtoService.buscaPorId(id);
     }
 }
