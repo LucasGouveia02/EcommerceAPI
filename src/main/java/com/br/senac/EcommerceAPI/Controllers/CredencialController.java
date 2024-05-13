@@ -8,6 +8,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @CrossOrigin("*")
 @RequestMapping("/api/login")
@@ -31,7 +33,7 @@ public class CredencialController {
     }
 
     @GetMapping("endereco")
-    public ResponseEntity<EnderecoModel> retornoEnderecoUsuario(@RequestParam("id") Long id) throws Exception {
+    public ResponseEntity<List<EnderecoModel>> retornoEnderecoUsuario(@RequestParam("id") Long id) throws Exception {
         return credencialService.buscarEnderecoUsuarioLogado(id);
     }
 }
