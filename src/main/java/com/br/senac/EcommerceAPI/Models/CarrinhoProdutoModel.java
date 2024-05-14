@@ -1,6 +1,6 @@
 package com.br.senac.EcommerceAPI.Models;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.br.senac.EcommerceAPI.Keys.CarrinhoProdutoKey;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
