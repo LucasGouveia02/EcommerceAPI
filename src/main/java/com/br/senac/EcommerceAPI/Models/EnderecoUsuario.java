@@ -1,5 +1,6 @@
 package com.br.senac.EcommerceAPI.Models;
 
+import com.br.senac.EcommerceAPI.Keys.EnderecoUsuarioKey;
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;

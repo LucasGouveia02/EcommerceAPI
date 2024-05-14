@@ -3,6 +3,7 @@ package com.br.senac.EcommerceAPI.Services;
 import com.br.senac.EcommerceAPI.DTO.CadastroUsuarioDTO;
 import com.br.senac.EcommerceAPI.DTO.EnderecoDTO;
 import com.br.senac.EcommerceAPI.DTO.UsuarioDTO;
+import com.br.senac.EcommerceAPI.Keys.EnderecoUsuarioKey;
 import com.br.senac.EcommerceAPI.Models.*;
 import com.br.senac.EcommerceAPI.Repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,7 +46,9 @@ public class UsuarioService {
             }
 
             UsuarioModel usuarioExistente = usuarioRepository.buscaPorCPF(dto.getCpf());
-            if(usuarioExistente != null) {
+            CredencialModel usuarioCredencial = credencialRepository.findByUsuario(dto.getEmail());
+
+            if(usuarioExistente != null || usuarioCredencial != null) {
                 return ResponseEntity.status(HttpStatus.CONFLICT).build();
             }
 

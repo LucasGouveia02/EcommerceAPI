@@ -1,14 +1,13 @@
 package com.br.senac.EcommerceAPI.Services;
 
 import com.br.senac.EcommerceAPI.DTO.CarrinhoDTO;
+import com.br.senac.EcommerceAPI.Keys.CarrinhoProdutoKey;
 import com.br.senac.EcommerceAPI.Models.*;
 import com.br.senac.EcommerceAPI.Repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 public class CarrinhoService {

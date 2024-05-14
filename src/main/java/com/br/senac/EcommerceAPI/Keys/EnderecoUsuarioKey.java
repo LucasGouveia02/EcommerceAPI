@@ -1,5 +1,7 @@
-package com.br.senac.EcommerceAPI.Models;
+package com.br.senac.EcommerceAPI.Keys;
 
+import com.br.senac.EcommerceAPI.Models.EnderecoModel;
+import com.br.senac.EcommerceAPI.Models.UsuarioModel;
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;

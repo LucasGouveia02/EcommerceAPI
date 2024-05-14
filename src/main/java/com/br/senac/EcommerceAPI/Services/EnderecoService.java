@@ -1,8 +1,8 @@
 package com.br.senac.EcommerceAPI.Services;
 
-import com.br.senac.EcommerceAPI.DTO.CredencialDTO;
 import com.br.senac.EcommerceAPI.DTO.EnderecoDTO;
 import com.br.senac.EcommerceAPI.DTO.NovoEnderecoDTO;
+import com.br.senac.EcommerceAPI.Keys.EnderecoUsuarioKey;
 import com.br.senac.EcommerceAPI.Models.*;
 import com.br.senac.EcommerceAPI.Repositories.EnderecoRepository;
 import com.br.senac.EcommerceAPI.Repositories.EnderecoUsuarioRepository;

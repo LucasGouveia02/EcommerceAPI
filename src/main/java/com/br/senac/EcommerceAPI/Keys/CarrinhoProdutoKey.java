@@ -1,5 +1,7 @@
-package com.br.senac.EcommerceAPI.Models;
+package com.br.senac.EcommerceAPI.Keys;
 
+import com.br.senac.EcommerceAPI.Models.CarrinhoModel;
+import com.br.senac.EcommerceAPI.Models.ProdutoModel;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.JoinColumn;
