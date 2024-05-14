@@ -20,8 +20,6 @@ public class CarrinhoModel {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
-    @Column(nullable = false, name = "quantidade")
-    private int qtd;
     @OneToOne
     @JoinColumn(name = "usuario_id")
     private UsuarioModel usuario_id;

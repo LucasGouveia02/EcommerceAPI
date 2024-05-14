@@ -1,5 +1,6 @@
 package com.br.senac.EcommerceAPI.Models;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
@@ -19,4 +20,6 @@ import org.springframework.stereotype.Component;
 public class CarrinhoProdutoModel {
     @EmbeddedId
     private CarrinhoProdutoKey id;
+    @Column(nullable = false, name = "quantidade")
+    private int qtd;
 }
