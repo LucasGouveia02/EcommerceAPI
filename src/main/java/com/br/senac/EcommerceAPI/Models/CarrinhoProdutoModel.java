@@ -22,4 +22,6 @@ public class CarrinhoProdutoModel {
     private CarrinhoProdutoKey id;
     @Column(nullable = false, name = "quantidade")
     private int qtd;
+    @Column(nullable = false, name = "tamanho")
+    private String tamanho;
 }

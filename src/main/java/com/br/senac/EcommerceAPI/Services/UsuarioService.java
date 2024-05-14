@@ -4,10 +4,7 @@ import com.br.senac.EcommerceAPI.DTO.CadastroUsuarioDTO;
 import com.br.senac.EcommerceAPI.DTO.EnderecoDTO;
 import com.br.senac.EcommerceAPI.DTO.UsuarioDTO;
 import com.br.senac.EcommerceAPI.Models.*;
-import com.br.senac.EcommerceAPI.Repositories.CredencialRepository;
-import com.br.senac.EcommerceAPI.Repositories.EnderecoRepository;
-import com.br.senac.EcommerceAPI.Repositories.EnderecoUsuarioRepository;
-import com.br.senac.EcommerceAPI.Repositories.UsuarioRepository;
+import com.br.senac.EcommerceAPI.Repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -33,6 +30,9 @@ public class UsuarioService {
 
     @Autowired
     private CredencialRepository credencialRepository;
+
+    @Autowired
+    private CarrinhoRepository carrinhoRepository;
 
     private UsuarioModel usuario;
     private EnderecoUsuario endereco;
@@ -77,6 +77,10 @@ public class UsuarioService {
             EnderecoUsuario eu = new EnderecoUsuario();
             eu.setId(euk);
             enderecoUsuarioRepository.save(eu);
+
+            CarrinhoModel carrinho = new CarrinhoModel();
+            carrinho.setUsuario_id(usuarioSalvo);
+            carrinhoRepository.save(carrinho);
 
             return new ResponseEntity<>(usuario, HttpStatus.CREATED);
         } catch (ParseException e) {

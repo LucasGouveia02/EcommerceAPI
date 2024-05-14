@@ -1,5 +1,6 @@
 package com.br.senac.EcommerceAPI.Models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -20,6 +21,7 @@ public class CarrinhoModel {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
+    @JsonIgnore
     @OneToOne
     @JoinColumn(name = "usuario_id")
     private UsuarioModel usuario_id;
