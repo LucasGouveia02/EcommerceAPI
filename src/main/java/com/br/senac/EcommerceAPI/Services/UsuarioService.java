@@ -80,6 +80,7 @@ public class UsuarioService {
 
             CarrinhoModel carrinho = new CarrinhoModel();
             carrinho.setUsuario_id(usuarioSalvo);
+            carrinho.setQuantidadeItens(0);
             carrinhoRepository.save(carrinho);
 
             return new ResponseEntity<>(usuario, HttpStatus.CREATED);

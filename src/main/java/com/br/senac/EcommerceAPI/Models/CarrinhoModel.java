@@ -8,6 +8,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Getter
 @Setter
 @AllArgsConstructor
@@ -25,4 +27,8 @@ public class CarrinhoModel {
     @OneToOne
     @JoinColumn(name = "usuario_id")
     private UsuarioModel usuario_id;
+    @Column(name = "quantidadeItens", nullable = false)
+    private Integer quantidadeItens;
+    @OneToMany(mappedBy = "id.carrinhoId", cascade = CascadeType.ALL)
+    private List<CarrinhoProdutoModel> carrinhoProdutoModel;
 }

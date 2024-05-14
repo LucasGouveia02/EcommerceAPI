@@ -1,9 +1,7 @@
 package com.br.senac.EcommerceAPI.Models;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.EmbeddedId;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -21,7 +19,7 @@ public class CarrinhoProdutoModel {
     @EmbeddedId
     private CarrinhoProdutoKey id;
     @Column(nullable = false, name = "quantidade")
-    private int qtd;
+    private Integer qtd;
     @Column(nullable = false, name = "tamanho")
     private String tamanho;
 }
