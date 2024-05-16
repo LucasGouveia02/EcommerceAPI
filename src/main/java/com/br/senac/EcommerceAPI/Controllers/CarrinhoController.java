@@ -36,4 +36,9 @@ public class CarrinhoController {
         return  carrinhoService.deleteProdutoCarrinho(produtoRemovido);
     }
 
+    @PutMapping
+    public ResponseEntity<CarrinhoProdutoModel> atualizarQuantidade(@RequestBody CarrinhoProdutoDTO produtoRemovido) throws Exception {
+        return carrinhoService.atualizarQuantidade(produtoRemovido);
+    }
+
 }
