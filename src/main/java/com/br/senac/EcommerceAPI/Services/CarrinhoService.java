@@ -1,6 +1,7 @@
 package com.br.senac.EcommerceAPI.Services;
 
 import com.br.senac.EcommerceAPI.DTO.CarrinhoDTO;
+import com.br.senac.EcommerceAPI.DTO.CarrinhoProdutoDTO;
 import com.br.senac.EcommerceAPI.Keys.CarrinhoProdutoKey;
 import com.br.senac.EcommerceAPI.Models.*;
 import com.br.senac.EcommerceAPI.Repositories.*;
@@ -52,5 +53,23 @@ public class CarrinhoService {
         CarrinhoModel carrinhoModel = carrinhoRepository.findById(id).orElseThrow(
                 () -> new Exception("Carrinho não encontrado com esse ID"));
         return new ResponseEntity<>(carrinhoModel, HttpStatus.OK);
+    }
+
+    public ResponseEntity<?> deleteProdutoCarrinho(CarrinhoProdutoDTO produtoRemovido) throws Exception {
+        ProdutoModel produtoModel = produtoRepository.findById(produtoRemovido.getIdProduto()).orElseThrow(
+                () -> new Exception("Produto não encontrado com esse ID"));
+
+        CarrinhoModel carrinhoModel = carrinhoRepository.findById(produtoRemovido.getIdCarrinho()).orElseThrow(
+                () -> new Exception("Carrinho não encontrado com esse ID"));
+
+        CarrinhoProdutoKey carrinhoProdutoKey = new CarrinhoProdutoKey(produtoModel, carrinhoModel);
+
+        CarrinhoProdutoModel carrinhoProdutoModel = carrinhoProdutoRepository.buscarPorIdTamanho(carrinhoProdutoKey, produtoRemovido.getTamanho());
+
+        carrinhoProdutoRepository.delete(carrinhoProdutoModel);
+        carrinhoModel.setQuantidadeItens(carrinhoModel.getQuantidadeItens()-1);
+        carrinhoRepository.save(carrinhoModel);
+
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

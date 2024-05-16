@@ -1,6 +1,7 @@
 package com.br.senac.EcommerceAPI.Controllers;
 
 import com.br.senac.EcommerceAPI.DTO.CarrinhoDTO;
+import com.br.senac.EcommerceAPI.DTO.CarrinhoProdutoDTO;
 import com.br.senac.EcommerceAPI.Models.CarrinhoModel;
 import com.br.senac.EcommerceAPI.Models.CarrinhoProdutoModel;
 import com.br.senac.EcommerceAPI.Models.ProdutoModel;
@@ -29,4 +30,10 @@ public class CarrinhoController {
     public ResponseEntity<CarrinhoModel> listaCarrinho(@PathVariable (value = "id") Long id) throws Exception {
         return carrinhoService.listarCarrinho(id);
     }
+
+    @DeleteMapping
+    public ResponseEntity<?> deleteProdutoCarrinho (@RequestBody CarrinhoProdutoDTO produtoRemovido) throws Exception {
+        return  carrinhoService.deleteProdutoCarrinho(produtoRemovido);
+    }
+
 }
