@@ -72,4 +72,24 @@ public class CarrinhoService {
 
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
+
+    public ResponseEntity<CarrinhoProdutoModel> atualizarQuantidade(CarrinhoProdutoDTO quantidadeAlterada) throws Exception {
+        ProdutoModel produtoModel = produtoRepository.findById(quantidadeAlterada.getIdProduto()).orElseThrow(
+                () -> new Exception("Produto não encontrado com esse ID"));
+
+        CarrinhoModel carrinhoModel = carrinhoRepository.findById(quantidadeAlterada.getIdCarrinho()).orElseThrow(
+                () -> new Exception("Carrinho não encontrado com esse ID"));
+
+        CarrinhoProdutoKey carrinhoProdutoKey = new CarrinhoProdutoKey(produtoModel, carrinhoModel);
+
+        CarrinhoProdutoModel carrinhoProdutoModel = carrinhoProdutoRepository.buscarPorIdTamanho(carrinhoProdutoKey, quantidadeAlterada.getTamanho());
+        carrinhoProdutoModel.setQtd(quantidadeAlterada.getQuantidadeProduto());
+
+        if (carrinhoProdutoModel.getQtd() <= 0) {
+            deleteProdutoCarrinho(quantidadeAlterada);
+        } else {
+            carrinhoProdutoRepository.save(carrinhoProdutoModel);
+        }
+        return new ResponseEntity<>(carrinhoProdutoModel, HttpStatus.OK);
+    }
 }
