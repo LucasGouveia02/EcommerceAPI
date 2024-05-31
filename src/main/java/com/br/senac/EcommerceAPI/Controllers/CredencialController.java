@@ -36,4 +36,9 @@ public class CredencialController {
     public ResponseEntity<List<EnderecoModel>> retornoEnderecoUsuario(@RequestParam("id") Long id) throws Exception {
         return credencialService.buscarEnderecoUsuarioLogado(id);
     }
+
+    @PostMapping("/logout")
+    public ResponseEntity<Boolean> logout() {
+        return credencialService.logout();
+    }
 }
