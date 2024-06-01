@@ -11,4 +11,7 @@ public interface CredencialRepository extends JpaRepository<CredencialModel, Lon
     @Query("SELECT u FROM CredencialModel u WHERE u.email = ?1")
     CredencialModel findByUsuario(String email);
 
+    @Query("SELECT u FROM CredencialModel u WHERE u.idUsuario = ?1")
+    CredencialModel findByIdUsuario(Long id);
+
 }

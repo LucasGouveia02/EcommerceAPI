@@ -3,6 +3,7 @@ package com.br.senac.EcommerceAPI.Models;
 import com.br.senac.EcommerceAPI.DTO.CadastroUsuarioDTO;
 import com.br.senac.EcommerceAPI.DTO.EnderecoDTO;
 import com.br.senac.EcommerceAPI.DTO.NovoEnderecoDTO;
+import com.br.senac.EcommerceAPI.DTO.UsuarioInfoDTO;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -48,7 +49,6 @@ public class EnderecoModel {
         this.cidade = dto.getCidade();
         this.uf = dto.getUf();
     }
-
     public EnderecoModel(NovoEnderecoDTO dto) {
         this.cep = dto.getCep();
         this.logradouro = dto.getLogradouro();

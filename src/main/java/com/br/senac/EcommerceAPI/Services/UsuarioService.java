@@ -3,6 +3,7 @@ package com.br.senac.EcommerceAPI.Services;
 import com.br.senac.EcommerceAPI.DTO.CadastroUsuarioDTO;
 import com.br.senac.EcommerceAPI.DTO.EnderecoDTO;
 import com.br.senac.EcommerceAPI.DTO.UsuarioDTO;
+import com.br.senac.EcommerceAPI.DTO.UsuarioInfoDTO;
 import com.br.senac.EcommerceAPI.Keys.EnderecoUsuarioKey;
 import com.br.senac.EcommerceAPI.Models.*;
 import com.br.senac.EcommerceAPI.Repositories.*;
@@ -37,6 +38,25 @@ public class UsuarioService {
 
     private UsuarioModel usuario;
     private EnderecoUsuario endereco;
+
+    public ResponseEntity<UsuarioInfoDTO> retonaDadosUsuario(Long id) throws Exception {
+        UsuarioModel usuario = usuarioRepository.findById(id).orElseThrow(
+                () -> new Exception("Usuário não encontrado!"));
+
+        CredencialModel credencial = credencialRepository.findByIdUsuario(id);
+        UsuarioInfoDTO usuarioInfoDTO = new UsuarioInfoDTO();
+
+        if (credencial != null) {
+            usuarioInfoDTO.setNome(usuario.getNome());
+            usuarioInfoDTO.setCpf(usuario.getCpf());
+            usuarioInfoDTO.setDtNascimento(usuario.getDtNascimento());
+            usuarioInfoDTO.setTelefone(usuario.getTelefone());
+            usuarioInfoDTO.setEmail(credencial.getEmail());
+            usuarioInfoDTO.setSenha(credencial.getSenha());
+            return new ResponseEntity<>(usuarioInfoDTO, HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
 
     public ResponseEntity<UsuarioModel> criarUsuario(CadastroUsuarioDTO dto) throws ParseException {
 
@@ -93,7 +113,6 @@ public class UsuarioService {
             throw new RuntimeException(e);
         }
     }
-
     private Date ajustarData(Date data) throws ParseException {
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         formatter.setTimeZone(TimeZone.getTimeZone("UTC"));
@@ -102,32 +121,6 @@ public class UsuarioService {
 
         return formatter.parse(dataFormatada);
     }
-
-//    private EnderecoModel getEnderecoDoUsuarioLogado() {
-//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-//        if (!(authentication instanceof AnonymousAuthenticationToken)) {
-//            String email = authentication.getName(); // Obtém o email do usuário autenticado
-//            UsuarioModel usuario = usuarioRepository.findByEmail(email);
-//            if (usuario != null) {
-////                EnderecoUsuario enderecoUsuario = enderecoUsuarioRepository.findByUsuario(usuario);
-////                if (enderecoUsuario != null) {
-////                    return enderecoUsuario.getId().getEnderecoId();
-////                }
-//            }
-//        }
-//        return null;
-//    }
-//
-//    public ResponseEntity<String> obterEnderecoDoUsuarioLogado() {
-//        EnderecoModel endereco = getEnderecoDoUsuarioLogado();
-//        if (endereco != null) {
-//            String enderecoCompleto = endereco.getLogradouro() + ", " + endereco.getNumero() + ", " + endereco.getBairro();
-//            return new ResponseEntity<>(enderecoCompleto, HttpStatus.OK);
-//        } else {
-//            return new ResponseEntity<>("Endereço não encontrado para o usuário logado", HttpStatus.NOT_FOUND);
-//        }
-//    }
-
     public ResponseEntity<List<UsuarioModel>> listarUsuarios() {
         List<UsuarioModel> listaCliente = usuarioRepository.findAll();
         return new ResponseEntity<>(listaCliente, HttpStatus.OK);

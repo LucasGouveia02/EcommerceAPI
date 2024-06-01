@@ -2,6 +2,7 @@ package com.br.senac.EcommerceAPI.Controllers;
 
 import com.br.senac.EcommerceAPI.DTO.CadastroUsuarioDTO;
 import com.br.senac.EcommerceAPI.DTO.UsuarioDTO;
+import com.br.senac.EcommerceAPI.DTO.UsuarioInfoDTO;
 import com.br.senac.EcommerceAPI.Models.UsuarioModel;
 import com.br.senac.EcommerceAPI.Services.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +24,6 @@ public class UsuarioController {
     public ResponseEntity<UsuarioModel> criarCliente(@RequestBody CadastroUsuarioDTO dto) throws ParseException {
         return usuarioService.criarUsuario(dto);
     }
-
     @GetMapping
     public ResponseEntity<List<UsuarioModel>> listarClientes() {
         return usuarioService.listarUsuarios();
@@ -34,13 +34,15 @@ public class UsuarioController {
                                                         Long id) throws Exception {
         return usuarioService.buscaPorId(id);
     }
-
     @GetMapping("/nome/{nome}")
     public ResponseEntity<UsuarioModel> buscaPorNome(@PathVariable (value = "nome")
                                                          String nome) throws Exception {
         return usuarioService.buscaPorNome(nome);
     }
-
+    @GetMapping("/info")
+    public ResponseEntity<UsuarioInfoDTO> retonaInfoUsuario(@RequestParam("id") Long id) throws Exception {
+        return usuarioService.retonaDadosUsuario(id);
+    }
     @PutMapping("{id}")
     public ResponseEntity<UsuarioModel> atualizarUsuario(@PathVariable (value = "id") Long id,
                                                          @RequestBody UsuarioDTO usuario) throws Exception {
