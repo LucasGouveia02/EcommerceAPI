@@ -39,6 +39,8 @@ public class CredencialController {
 
     @PostMapping("/logout")
     public ResponseEntity<Boolean> logout() {
+        credencialServiceAutenticado.setAutenticado(false);
+        credencialServiceAutenticado.setCredencialModel(null);
         return credencialService.logout();
     }
 }

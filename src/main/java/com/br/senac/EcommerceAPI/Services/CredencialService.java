@@ -99,7 +99,7 @@ public class CredencialService {
         try {
             autenticado = false;
             credencialModel = null;
-            return new ResponseEntity<>(true, HttpStatus.OK);
+            return new ResponseEntity<>(autenticado, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(false, HttpStatus.INTERNAL_SERVER_ERROR);
         }
