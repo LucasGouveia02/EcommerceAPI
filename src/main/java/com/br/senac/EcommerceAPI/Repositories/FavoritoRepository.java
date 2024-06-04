@@ -15,4 +15,6 @@ import java.util.List;
 public interface FavoritoRepository extends JpaRepository<FavoritoModel, ProdutoUsuarioKey> {
     @Query("SELECT u.id.produtoId FROM FavoritoModel u WHERE u.id.usuarioId = ?1")
     List<ProdutoModel> findFavoritosByUserId(UsuarioModel id);
+    @Query("SELECT u FROM FavoritoModel u WHERE u.id.usuarioId = :userId AND u.id.produtoId = :productId")
+    FavoritoModel findFavoritoObjectByUserId(UsuarioModel userId, ProdutoModel productId);
 }
