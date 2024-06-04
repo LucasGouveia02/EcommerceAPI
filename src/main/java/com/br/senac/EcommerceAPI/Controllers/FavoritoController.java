@@ -1,5 +1,6 @@
 package com.br.senac.EcommerceAPI.Controllers;
 
+import com.br.senac.EcommerceAPI.DTO.CarrinhoProdutoDTO;
 import com.br.senac.EcommerceAPI.DTO.FavoritoDTO;
 import com.br.senac.EcommerceAPI.Models.FavoritoModel;
 import com.br.senac.EcommerceAPI.Models.ProdutoModel;
@@ -25,5 +26,10 @@ public class FavoritoController {
     @GetMapping("/buscar")
     public ResponseEntity<List<ProdutoModel>> listarFavorito(@RequestParam("id") Long id) throws Exception {
         return favoritoService.buscaFavorito(id);
+    }
+
+    @DeleteMapping("/deletar")
+    public ResponseEntity<?> deleteFavorito(@RequestBody FavoritoDTO favoritoDTO) throws Exception {
+        return favoritoService.excluirFavorito(favoritoDTO);
     }
 }

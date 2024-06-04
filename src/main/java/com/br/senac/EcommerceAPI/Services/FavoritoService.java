@@ -39,6 +39,15 @@ public class FavoritoService {
         favoritoRepository.save(favoritoModel);
         return new ResponseEntity<>(favoritoModel, HttpStatus.CREATED);
     }
+    public ResponseEntity<?> excluirFavorito(FavoritoDTO favoritoDTO) throws Exception {
+        ProdutoModel produtoModel = produtoRepository.findById(favoritoDTO.getProdutoId()).orElseThrow(
+                () -> new Exception("Produto não encontrado com esse ID"));
+        UsuarioModel usuario = usuarioRepository.findById(favoritoDTO.getUsuarioId()).orElseThrow(
+                () -> new Exception("Usuário não encontrado!"));
+        FavoritoModel favoritoModel = favoritoRepository.findFavoritoObjectByUserId(usuario, produtoModel);
+        favoritoRepository.delete(favoritoModel);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
 
     public ResponseEntity<List<ProdutoModel>> buscaFavorito(Long userId) throws Exception {
         UsuarioModel usuario = usuarioRepository.findById(userId).orElseThrow(
