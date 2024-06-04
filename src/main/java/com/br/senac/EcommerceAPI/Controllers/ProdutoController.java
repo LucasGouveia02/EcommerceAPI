@@ -1,6 +1,8 @@
 package com.br.senac.EcommerceAPI.Controllers;
 
+import com.br.senac.EcommerceAPI.DTO.FavoritoDTO;
 import com.br.senac.EcommerceAPI.DTO.ProdutoDTO;
+import com.br.senac.EcommerceAPI.Models.FavoritoModel;
 import com.br.senac.EcommerceAPI.Models.ProdutoModel;
 import com.br.senac.EcommerceAPI.Services.ProdutoService;
 import org.springframework.beans.factory.annotation.Autowired;
