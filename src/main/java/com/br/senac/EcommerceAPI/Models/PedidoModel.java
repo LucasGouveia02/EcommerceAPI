@@ -44,4 +44,7 @@ public class PedidoModel {
 
     @Column(name = "totalPedido", nullable = false)
     private Double totalPedido;
+
+    @OneToMany(mappedBy = "id.pedidoId", cascade = CascadeType.ALL)
+    private List<PedidoProdutoModel> pedidoProdutoModel;
 }
