@@ -1,6 +1,7 @@
 package com.br.senac.EcommerceAPI.Models;
 
 import com.br.senac.EcommerceAPI.DTO.CadastroUsuarioDTO;
+import com.br.senac.EcommerceAPI.DTO.PedidoDTO;
 import com.br.senac.EcommerceAPI.DTO.UsuarioDTO;
 import com.br.senac.EcommerceAPI.DTO.UsuarioInfoDTO;
 import com.fasterxml.jackson.annotation.JsonIgnore;

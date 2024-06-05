@@ -18,7 +18,6 @@ import org.springframework.stereotype.Component;
 @Entity
 @Table(name = "pedido_produto")
 @Component
-
 public class PedidoProdutoModel {
 
     @EmbeddedId
@@ -29,4 +28,5 @@ public class PedidoProdutoModel {
 
     @Column(nullable = false, name = "tamanho")
     private String tamanho;
+
 }
