@@ -32,6 +32,9 @@ public class PedidoService {
     private CarrinhoRepository carrinhoRepository;
 
     @Autowired
+    private CarrinhoProdutoRepository carrinhoProdutoRepository;
+
+    @Autowired
     private CarrinhoService carrinhoService;
 
     public ResponseEntity<PedidoModel> gravarPedido (PedidoDTO dto) throws Exception {
@@ -58,13 +61,19 @@ public class PedidoService {
                 pedidoProduto.setId(pedidoProdutoKey);
                 pedidoProduto.setQtd(item.getQtd());
                 pedidoProduto.setTamanho(item.getTamanho());
-                PedidoProdutoModel pedido = pedidoProdutoRepository.save(pedidoProduto);
+                pedidoProdutoRepository.save(pedidoProduto);
             }
 
-            PedidoModel pedidoComProduto = pedidoRepository.findById(novoPedido.getId()).orElseThrow(
-                    () -> new Exception("Pedido não encontrado com esse ID"));
+            // zerar os produtos do carrinho
+//            for(CarrinhoProdutoModel item : carrinhoModel.getCarrinhoProdutoModel()) {
+//                carrinhoProdutoRepository.delete(item);
+//            }
+//            carrinhoProdutoRepository.deleteAll(carrinhoModel.getCarrinhoProdutoModel());
+//            carrinhoModel.getCarrinhoProdutoModel().clear();
+//            carrinhoModel.setQuantidadeItens(0);
+//            carrinhoRepository.save(carrinhoModel);
 
-            return new ResponseEntity<>(pedidoComProduto, HttpStatus.CREATED);
+            return new ResponseEntity<>(novoPedido, HttpStatus.CREATED);
         } catch (Exception e){
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
