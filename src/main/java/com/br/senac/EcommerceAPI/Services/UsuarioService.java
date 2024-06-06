@@ -168,7 +168,7 @@ public class UsuarioService {
         return new ResponseEntity<>(usuario, HttpStatus.OK);
     }
 
-    public ResponseEntity<CredencialModel> atualizarCredenciais(Long id, AtualizarCredencialDTO dto) {
+    public ResponseEntity<CredencialModel> atualizarEmail(Long id, AtualizarCredencialDTO dto) {
         CredencialModel credencial = credencialRepository.findByIdUsuario(id);
 
         if (credencial != null) {
@@ -180,6 +180,16 @@ public class UsuarioService {
             }
             credencial.setEmail(dto.getEmail());
 
+            credencialRepository.save(credencial);
+            return new ResponseEntity<>(credencial, HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+    }
+
+    public ResponseEntity<CredencialModel> atualizarSenha(Long id, AtualizarCredencialDTO dto) {
+        CredencialModel credencial = credencialRepository.findByIdUsuario(id);
+
+        if (credencial != null) {
             if (dto.getSenhaAtual() != null && dto.getSenha() != null) {
                 if (dto.getSenhaAtual().equals(credencial.getSenha())) {
                     credencial.setSenha(dto.getSenha());
