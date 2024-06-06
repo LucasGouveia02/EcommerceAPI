@@ -1,8 +1,8 @@
 package com.br.senac.EcommerceAPI.Controllers;
 
-import com.br.senac.EcommerceAPI.DTO.CadastroUsuarioDTO;
-import com.br.senac.EcommerceAPI.DTO.UsuarioDTO;
-import com.br.senac.EcommerceAPI.DTO.UsuarioInfoDTO;
+import com.br.senac.EcommerceAPI.DTO.*;
+import com.br.senac.EcommerceAPI.Models.CredencialModel;
+import com.br.senac.EcommerceAPI.Models.EnderecoModel;
 import com.br.senac.EcommerceAPI.Models.UsuarioModel;
 import com.br.senac.EcommerceAPI.Services.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,9 +43,30 @@ public class UsuarioController {
     public ResponseEntity<UsuarioInfoDTO> retonaInfoUsuario(@RequestParam("id") Long id) throws Exception {
         return usuarioService.retonaDadosUsuario(id);
     }
-    @PutMapping("{id}")
-    public ResponseEntity<UsuarioModel> atualizarUsuario(@PathVariable (value = "id") Long id,
-                                                         @RequestBody UsuarioDTO usuario) throws Exception {
-        return usuarioService.atualizarUsuario(id, usuario);
+    @PutMapping("/atualizardados")
+    public ResponseEntity<UsuarioModel> atualizarUsuario(@RequestParam ("id") Long id,
+                                                         @RequestBody AtualizarUsuarioDTO dto) throws Exception {
+        return usuarioService.atualizarUsuario(id, dto);
     }
+
+    @PutMapping("/atualizaremail")
+    public ResponseEntity<CredencialModel> atualizarEmail(@RequestParam ("id") Long id,
+                                                               @RequestBody AtualizarCredencialDTO dto) {
+        return usuarioService.atualizarEmail(id, dto);
+
+    }
+
+    @PutMapping("/atualizarsenha")
+    public ResponseEntity<CredencialModel> atualizarSenha(@RequestParam ("id") Long id,
+                                                               @RequestBody AtualizarCredencialDTO dto) {
+        return usuarioService.atualizarSenha(id, dto);
+
+    }
+
+    @PutMapping("/atualizarenderecos")
+    public ResponseEntity<EnderecoModel> atualizarEndereco(@RequestParam ("id") Long id,
+                                                           @RequestBody AtualizarEnderecoDTO dto) throws Exception {
+        return usuarioService.atualizarEndereco(id, dto);
+    }
+
 }

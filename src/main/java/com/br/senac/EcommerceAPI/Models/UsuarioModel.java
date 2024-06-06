@@ -1,9 +1,6 @@
 package com.br.senac.EcommerceAPI.Models;
 
-import com.br.senac.EcommerceAPI.DTO.CadastroUsuarioDTO;
-import com.br.senac.EcommerceAPI.DTO.PedidoDTO;
-import com.br.senac.EcommerceAPI.DTO.UsuarioDTO;
-import com.br.senac.EcommerceAPI.DTO.UsuarioInfoDTO;
+import com.br.senac.EcommerceAPI.DTO.*;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -50,6 +47,13 @@ public class UsuarioModel {
         this.dtNascimento = dto.getDtNascimento();
     }
     public UsuarioModel(UsuarioInfoDTO dto) {
+        this.nome = dto.getNome();
+        this.cpf = dto.getCpf();
+        this.dtNascimento = dto.getDtNascimento();
+        this.telefone = dto.getTelefone();
+    }
+
+    public UsuarioModel(AtualizarUsuarioDTO dto) {
         this.nome = dto.getNome();
         this.cpf = dto.getCpf();
         this.dtNascimento = dto.getDtNascimento();
