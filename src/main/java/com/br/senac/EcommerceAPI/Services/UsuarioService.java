@@ -1,9 +1,6 @@
 package com.br.senac.EcommerceAPI.Services;
 
-import com.br.senac.EcommerceAPI.DTO.CadastroUsuarioDTO;
-import com.br.senac.EcommerceAPI.DTO.EnderecoDTO;
-import com.br.senac.EcommerceAPI.DTO.UsuarioDTO;
-import com.br.senac.EcommerceAPI.DTO.UsuarioInfoDTO;
+import com.br.senac.EcommerceAPI.DTO.*;
 import com.br.senac.EcommerceAPI.Keys.EnderecoUsuarioKey;
 import com.br.senac.EcommerceAPI.Models.*;
 import com.br.senac.EcommerceAPI.Repositories.*;
@@ -16,6 +13,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 import java.util.TimeZone;
 
 @Service
@@ -113,6 +111,7 @@ public class UsuarioService {
             throw new RuntimeException(e);
         }
     }
+
     private Date ajustarData(Date data) throws ParseException {
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         formatter.setTimeZone(TimeZone.getTimeZone("UTC"));
@@ -121,6 +120,7 @@ public class UsuarioService {
 
         return formatter.parse(dataFormatada);
     }
+
     public ResponseEntity<List<UsuarioModel>> listarUsuarios() {
         List<UsuarioModel> listaCliente = usuarioRepository.findAll();
         return new ResponseEntity<>(listaCliente, HttpStatus.OK);
@@ -148,17 +148,66 @@ public class UsuarioService {
             throw new Exception("Cliente já cadastrado.");
     }
 
-    public ResponseEntity<UsuarioModel> atualizarUsuario(Long id, UsuarioDTO dto) throws Exception {
-        UsuarioModel cE = usuarioRepository.findById(id).orElseThrow(
-                () -> new Exception("Cliente não encontrado"));
-        cE.setNome(dto.getNome());
-        cE.setTelefone(dto.getTelefone());
-        cE.setCpf(dto.getCpf());
-        cE.setDtNascimento(dto.getDtNascimento());
+    public ResponseEntity<UsuarioModel> atualizarUsuario(Long id, AtualizarUsuarioDTO dto) throws Exception {
+        UsuarioModel usuario = usuarioRepository.findById(id).orElseThrow(
+                () -> new Exception("Usuário não encontrado!"));
 
-        usuarioRepository.save(cE);
-        return new ResponseEntity<>(cE, HttpStatus.OK);
+        if(usuario != null) {
+            usuario.setNome(dto.getNome());
+            if (dto.getCpf() != null && !dto.getCpf().equals(usuario.getCpf())) {
+                UsuarioModel usuarioExistente = usuarioRepository.buscaPorCPF(dto.getCpf());
+                if (usuarioExistente != null && !usuarioExistente.getId().equals(id)) {
+                    return new ResponseEntity<>(HttpStatus.CONFLICT);
+                }
+            }
+            usuario.setCpf(dto.getCpf());
+            usuario.setDtNascimento(dto.getDtNascimento());
+            usuario.setTelefone(dto.getTelefone());
+            usuarioRepository.save(usuario);
+        }
+        return new ResponseEntity<>(usuario, HttpStatus.OK);
     }
 
-    //TODO: Implementar método para inativar usuário. NENHUM usuário será excluído do sistema;
+    public ResponseEntity<CredencialModel> atualizarCredenciais(Long id, AtualizarCredencialDTO dto) {
+        CredencialModel credencial = credencialRepository.findByIdUsuario(id);
+
+        if (credencial != null) {
+            if (dto.getEmail() != null &&!dto.getEmail().equals(credencial.getEmail())) {
+                CredencialModel emailExistente = credencialRepository.findByUsuario(dto.getEmail());
+                if (emailExistente != null && !emailExistente.getIdUsuario().equals(id)) {
+                    return new ResponseEntity<>(HttpStatus.CONFLICT);
+                }
+            }
+            credencial.setEmail(dto.getEmail());
+
+            if (dto.getSenhaAtual() != null && dto.getSenha() != null) {
+                if (dto.getSenhaAtual().equals(credencial.getSenha())) {
+                    credencial.setSenha(dto.getSenha());
+                } else {
+                    return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+                }
+            }
+
+            credencialRepository.save(credencial);
+            return new ResponseEntity<>(credencial, HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+    }
+
+    public ResponseEntity<EnderecoModel> atualizarEndereco(Long id, AtualizarEnderecoDTO dto) throws Exception {
+        EnderecoModel endereco = enderecoRepository.findById(id).orElseThrow(
+                () -> new Exception("Endereço não encontrado!"));
+
+        if (endereco != null) {
+            endereco.setCep(dto.getCep());
+            endereco.setLogradouro(dto.getLogradouro());
+            endereco.setNumero(dto.getNumero());
+            endereco.setBairro(dto.getBairro());
+            endereco.setCidade(dto.getCidade());
+            endereco.setUf(dto.getUf());
+            enderecoRepository.save(endereco);
+            return new ResponseEntity<>(endereco, HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
 }

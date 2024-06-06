@@ -1,5 +1,6 @@
 package com.br.senac.EcommerceAPI.Models;
 
+import com.br.senac.EcommerceAPI.DTO.AtualizarCredencialDTO;
 import com.br.senac.EcommerceAPI.DTO.CredencialDTO;
 import com.br.senac.EcommerceAPI.DTO.UsuarioInfoDTO;
 import jakarta.persistence.*;
@@ -33,6 +34,11 @@ public class CredencialModel {
         this.admin = dto.isAdmin();
     }
     public CredencialModel(UsuarioInfoDTO dto) {
+        this.email = dto.getEmail();
+        this.senha = dto.getSenha();
+    }
+
+    public CredencialModel(AtualizarCredencialDTO dto) {
         this.email = dto.getEmail();
         this.senha = dto.getSenha();
     }
