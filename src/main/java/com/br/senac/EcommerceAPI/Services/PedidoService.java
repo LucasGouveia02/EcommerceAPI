@@ -65,13 +65,9 @@ public class PedidoService {
             }
 
             // zerar os produtos do carrinho
-//            for(CarrinhoProdutoModel item : carrinhoModel.getCarrinhoProdutoModel()) {
-//                carrinhoProdutoRepository.delete(item);
-//            }
-//            carrinhoProdutoRepository.deleteAll(carrinhoModel.getCarrinhoProdutoModel());
-//            carrinhoModel.getCarrinhoProdutoModel().clear();
-//            carrinhoModel.setQuantidadeItens(0);
-//            carrinhoRepository.save(carrinhoModel);
+            carrinhoProdutoRepository.limparCarrinho(carrinhoModel);
+            carrinhoModel.setQuantidadeItens(0);
+            carrinhoRepository.save(carrinhoModel);
 
             return new ResponseEntity<>(novoPedido, HttpStatus.CREATED);
         } catch (Exception e){
