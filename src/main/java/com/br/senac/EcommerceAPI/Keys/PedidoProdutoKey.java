@@ -17,11 +17,11 @@ import lombok.Setter;
 @Setter
 @Embeddable
 public class PedidoProdutoKey {
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "fk_pedido_id")
     private PedidoModel pedidoId;
 
-    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "fk_produto_id")
     private ProdutoModel produtoId;

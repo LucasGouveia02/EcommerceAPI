@@ -11,6 +11,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class PedidoService {
 
@@ -66,5 +68,14 @@ public class PedidoService {
         } catch (Exception e){
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
+    }
+
+    public ResponseEntity<List<PedidoModel>> listarPedidosUsuario (Long id) throws Exception {
+        UsuarioModel usuario = usuarioRepository.findById(id).orElseThrow(
+                () -> new Exception("Usuário não encontrado com esse ID"));
+
+        List<PedidoModel> pedidos = usuario.getPedidos();
+
+        return new ResponseEntity<>(pedidos, HttpStatus.OK);
     }
 }
