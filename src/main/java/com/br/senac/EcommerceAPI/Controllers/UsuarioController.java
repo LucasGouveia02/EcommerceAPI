@@ -49,10 +49,17 @@ public class UsuarioController {
         return usuarioService.atualizarUsuario(id, dto);
     }
 
-    @PutMapping("/atualizarcredenciais")
-    public ResponseEntity<CredencialModel> atualizarCredencial(@RequestParam ("id") Long id,
+    @PutMapping("/atualizaremail")
+    public ResponseEntity<CredencialModel> atualizarEmail(@RequestParam ("id") Long id,
                                                                @RequestBody AtualizarCredencialDTO dto) {
-        return usuarioService.atualizarCredenciais(id, dto);
+        return usuarioService.atualizarEmail(id, dto);
+
+    }
+
+    @PutMapping("/atualizarsenha")
+    public ResponseEntity<CredencialModel> atualizarSenha(@RequestParam ("id") Long id,
+                                                               @RequestBody AtualizarCredencialDTO dto) {
+        return usuarioService.atualizarSenha(id, dto);
 
     }
 
