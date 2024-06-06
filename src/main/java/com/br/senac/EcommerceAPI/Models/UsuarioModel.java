@@ -31,6 +31,8 @@ public class UsuarioModel {
     private Date dtNascimento;
     @OneToOne(mappedBy = "usuario_id", cascade = CascadeType.ALL)
     private CarrinhoModel carrinho;
+    @OneToMany(mappedBy = "usuario_id")
+    private List<PedidoModel> pedidos;
 
     public UsuarioModel(UsuarioDTO dto) {
         this.nome = dto.getNome();
