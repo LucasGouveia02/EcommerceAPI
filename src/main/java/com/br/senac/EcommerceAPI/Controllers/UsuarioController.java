@@ -69,4 +69,9 @@ public class UsuarioController {
         return usuarioService.atualizarEndereco(id, dto);
     }
 
+    @DeleteMapping("/deletarendereco")
+    public ResponseEntity<?> deletarEndereco(@RequestParam ("id") Long id) throws Exception {
+        return usuarioService.excluirEndereco(id);
+    }
+
 }

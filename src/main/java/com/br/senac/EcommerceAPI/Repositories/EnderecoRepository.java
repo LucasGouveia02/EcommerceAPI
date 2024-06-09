@@ -20,4 +20,5 @@ public interface EnderecoRepository extends JpaRepository<EnderecoModel, Long> {
             "FROM EnderecoUsuario e " +
             "WHERE e.id.usuarioId = :usuarioId")
     List<EnderecoUsuario> retornoEnderecoPorUsuario(@Param("usuarioId") UsuarioModel id);
+
 }
