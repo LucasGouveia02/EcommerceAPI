@@ -48,30 +48,32 @@ public class UsuarioController {
                                                          @RequestBody AtualizarUsuarioDTO dto) throws Exception {
         return usuarioService.atualizarUsuario(id, dto);
     }
-
     @PutMapping("/atualizaremail")
     public ResponseEntity<CredencialModel> atualizarEmail(@RequestParam ("id") Long id,
                                                                @RequestBody AtualizarCredencialDTO dto) {
         return usuarioService.atualizarEmail(id, dto);
 
     }
-
     @PutMapping("/atualizarsenha")
     public ResponseEntity<CredencialModel> atualizarSenha(@RequestParam ("id") Long id,
                                                                @RequestBody AtualizarCredencialDTO dto) {
         return usuarioService.atualizarSenha(id, dto);
 
     }
-
     @PutMapping("/atualizarenderecos")
     public ResponseEntity<EnderecoModel> atualizarEndereco(@RequestParam ("id") Long id,
                                                            @RequestBody AtualizarEnderecoDTO dto) throws Exception {
         return usuarioService.atualizarEndereco(id, dto);
     }
-
     @DeleteMapping("/deletarendereco")
     public ResponseEntity<?> deletarEndereco(@RequestParam ("id") Long id) throws Exception {
         return usuarioService.excluirEndereco(id);
+    }
+
+    @PostMapping("/novoendereco")
+    public ResponseEntity<EnderecoModel> novoEndereco(@RequestParam ("id") Long id,
+                                                      @RequestBody EnderecoDTO dto) throws Exception {
+        return usuarioService.novoEndereco(id, dto);
     }
 
 }

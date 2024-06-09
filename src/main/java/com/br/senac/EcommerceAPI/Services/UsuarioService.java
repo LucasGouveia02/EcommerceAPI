@@ -224,10 +224,35 @@ public class UsuarioService {
     @Transactional
     public ResponseEntity<?> excluirEndereco(Long id) throws Exception {
         EnderecoModel endereco = enderecoRepository.findById(id).orElseThrow(
-                () -> new Exception("Endereço localizado!"));
+                () -> new Exception("Endereço não localizado!"));
 
         enderecoUsuarioRepository.deletarEndereco(endereco);
         enderecoRepository.deleteById(endereco.getId());
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    public ResponseEntity<EnderecoModel> novoEndereco(Long id, EnderecoDTO dto) throws Exception {
+        UsuarioModel usuario = usuarioRepository.findById(id).orElseThrow(
+                () -> new Exception("Usuário não localizado!"));
+
+        if (usuario != null) {
+            EnderecoModel endereco = new EnderecoModel();
+            endereco.setCep(dto.getCep());
+            endereco.setLogradouro(dto.getLogradouro());
+            endereco.setNumero(dto.getNumero());
+            endereco.setBairro(dto.getBairro());
+            endereco.setCidade(dto.getCidade());
+            endereco.setUf(dto.getUf());
+
+            EnderecoModel enderecoSalvo = enderecoRepository.save(endereco);
+
+            EnderecoUsuarioKey euk = new EnderecoUsuarioKey(usuario, enderecoSalvo);
+            EnderecoUsuario eu = new EnderecoUsuario();
+            eu.setId(euk);
+            enderecoUsuarioRepository.save(eu);
+
+            return new ResponseEntity<>(enderecoSalvo, HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 }
