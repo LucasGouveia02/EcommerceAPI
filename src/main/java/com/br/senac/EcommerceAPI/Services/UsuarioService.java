@@ -4,6 +4,7 @@ import com.br.senac.EcommerceAPI.DTO.*;
 import com.br.senac.EcommerceAPI.Keys.EnderecoUsuarioKey;
 import com.br.senac.EcommerceAPI.Models.*;
 import com.br.senac.EcommerceAPI.Repositories.*;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -219,5 +220,14 @@ public class UsuarioService {
             return new ResponseEntity<>(endereco, HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
+    @Transactional
+    public ResponseEntity<?> excluirEndereco(Long id) throws Exception {
+        EnderecoModel endereco = enderecoRepository.findById(id).orElseThrow(
+                () -> new Exception("Endereço localizado!"));
+
+        enderecoUsuarioRepository.deletarEndereco(endereco);
+        enderecoRepository.deleteById(endereco.getId());
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }
