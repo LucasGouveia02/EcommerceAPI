@@ -1,9 +1,11 @@
 package com.br.senac.EcommerceAPI.Controllers;
 
+import com.br.senac.EcommerceAPI.DTO.EstoqueDTO;
 import com.br.senac.EcommerceAPI.DTO.FavoritoDTO;
 import com.br.senac.EcommerceAPI.DTO.ProdutoDTO;
 import com.br.senac.EcommerceAPI.Models.FavoritoModel;
 import com.br.senac.EcommerceAPI.Models.ProdutoModel;
+import com.br.senac.EcommerceAPI.Models.TamanhoEstoqueModel;
 import com.br.senac.EcommerceAPI.Services.ProdutoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -38,5 +40,10 @@ public class ProdutoController {
     @GetMapping("{id}")
     public ResponseEntity<ProdutoModel> listarProdID(@PathVariable("id") Long id) throws Exception {
         return produtoService.buscaPorId(id);
+    }
+
+    @PutMapping("/estoque/alterar")
+    public ResponseEntity<List<TamanhoEstoqueModel>> atualizarEstoque(@RequestBody EstoqueDTO estoqueDTO) throws Exception {
+        return produtoService.atualizarEstoque(estoqueDTO);
     }
 }

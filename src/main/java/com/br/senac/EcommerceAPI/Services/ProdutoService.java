@@ -1,6 +1,7 @@
 package com.br.senac.EcommerceAPI.Services;
 
 import com.br.senac.EcommerceAPI.BlobsAzure.BlobStorageService;
+import com.br.senac.EcommerceAPI.DTO.EstoqueDTO;
 import com.br.senac.EcommerceAPI.DTO.ProdutoAllInfoDTO;
 import com.br.senac.EcommerceAPI.DTO.ProdutoDTO;
 import com.br.senac.EcommerceAPI.Models.ProdutoModel;
@@ -98,5 +99,20 @@ public class ProdutoService {
         ProdutoModel c = produtoRepository.findById(id).orElseThrow(
                 () -> new Exception("Produto não encontrado"));
         return new ResponseEntity<>(c, HttpStatus.OK);
+    }
+
+    public ResponseEntity<List<TamanhoEstoqueModel>> atualizarEstoque(EstoqueDTO estoqueDTO) throws Exception {
+        ProdutoModel produtoId = produtoRepository.findById(estoqueDTO.getProductId()).orElseThrow(
+                () -> new Exception("Produto não encontrado"));
+        produtoRepository.limparTamanhoEstoque(produtoId);
+
+        for (TamanhoEstoqueModel tamanhoEstoque : estoqueDTO.getTamanhosEstoque()) {
+            // Definindo o ProdutoModel como proprietário do relacionamento
+            tamanhoEstoque.setProdutoId(produtoId);
+
+            // Salvando o TamanhoEstoqueModel no banco de dados
+            tamanhoEstoqueRepository.save(tamanhoEstoque);
+        }
+        return new ResponseEntity<>(tamanhoEstoqueRepository.buscarEstoques(produtoId), HttpStatus.OK);
     }
 }
