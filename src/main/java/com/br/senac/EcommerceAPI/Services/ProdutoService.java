@@ -117,8 +117,10 @@ public class ProdutoService {
         return new ResponseEntity<>(tamanhoEstoqueRepository.buscarEstoques(produtoId), HttpStatus.OK);
     }
 
-    public ResponseEntity<ProdutoModel> atualizarProduto(String produto, MultipartFile imagem,
-                                                         MultipartFile imagem2, MultipartFile imagem3,
+    public ResponseEntity<ProdutoModel> atualizarProduto(String produto,
+                                                         MultipartFile imagem,
+                                                         MultipartFile imagem2,
+                                                         MultipartFile imagem3,
                                                          MultipartFile imagem4) throws Exception {
         // Converte a string JSON em um objeto ProdutoDTO
         ObjectMapper mapper = new ObjectMapper();
