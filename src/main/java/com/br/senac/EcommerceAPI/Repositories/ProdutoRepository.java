@@ -16,9 +16,4 @@ import java.util.List;
 public interface ProdutoRepository extends JpaRepository<ProdutoModel, Long> {
     @Query("SELECT p FROM ProdutoModel p WHERE p.categoria = :categoryName")
     List<ProdutoModel> findByCategoryName(@Param("categoryName") String categoryName);
-
-    @Transactional
-    @Modifying
-    @Query("DELETE FROM TamanhoEstoqueModel p WHERE p.produtoId = :produtoId")
-    void limparTamanhoEstoque(@Param("produtoId") ProdutoModel produtoId);
 }

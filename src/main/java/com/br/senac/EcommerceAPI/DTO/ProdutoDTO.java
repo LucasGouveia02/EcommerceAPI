@@ -16,6 +16,7 @@ import java.util.List;
 @NoArgsConstructor
 public class ProdutoDTO implements Serializable {
 
+    private Long id;
     private String nome;
     private BigDecimal preco;
     private String categoria;
