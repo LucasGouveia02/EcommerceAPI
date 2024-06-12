@@ -3,6 +3,7 @@ package com.br.senac.EcommerceAPI.Repositories;
 import com.br.senac.EcommerceAPI.Keys.CarrinhoProdutoKey;
 import com.br.senac.EcommerceAPI.Models.CarrinhoModel;
 import com.br.senac.EcommerceAPI.Models.CarrinhoProdutoModel;
+import com.br.senac.EcommerceAPI.Models.ProdutoModel;
 import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -19,4 +20,9 @@ public interface CarrinhoProdutoRepository extends JpaRepository<CarrinhoProduto
     @Modifying
     @Query("DELETE FROM CarrinhoProdutoModel p WHERE p.id.carrinhoId = :idCarrinho")
     void limparCarrinho(@Param("idCarrinho") CarrinhoModel idCarrinho);
+
+    @Transactional
+    @Modifying
+    @Query("DELETE FROM CarrinhoProdutoModel p WHERE p.id.produtoId = :idProduto")
+    void limparProdutoCarrinhos(@Param("idProduto") ProdutoModel idProduto);
 }

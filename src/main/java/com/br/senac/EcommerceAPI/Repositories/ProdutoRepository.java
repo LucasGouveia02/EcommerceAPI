@@ -14,6 +14,6 @@ import java.util.List;
 
 @Repository
 public interface ProdutoRepository extends JpaRepository<ProdutoModel, Long> {
-    @Query("SELECT p FROM ProdutoModel p WHERE p.categoria = :categoryName")
+    @Query("SELECT p FROM ProdutoModel p WHERE p.categoria = :categoryName AND p.ativado = true")
     List<ProdutoModel> findByCategoryName(@Param("categoryName") String categoryName);
 }

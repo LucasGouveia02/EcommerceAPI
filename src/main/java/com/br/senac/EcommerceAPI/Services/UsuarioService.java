@@ -128,13 +128,22 @@ public class UsuarioService {
     }
 
     public ResponseEntity<UsuarioModel> buscaPorId(Long id) throws Exception{
-        UsuarioModel c = usuarioRepository.findById(id).orElseThrow(
-                () -> new Exception("Cliente não encontrado"));
+        UsuarioModel c;
+        c = usuarioRepository.findById(id).orElseThrow(() -> new Exception("Cliente não encontrado"));
+        if (c.getCarrinho().getQuantidadeItens() != c.getCarrinho().getCarrinhoProdutoModel().size()) {
+            c.getCarrinho().setQuantidadeItens(c.getCarrinho().getCarrinhoProdutoModel().size());
+            c = usuarioRepository.save(c);
+        }
         return new ResponseEntity<>(c, HttpStatus.OK);
     }
 
     public ResponseEntity<UsuarioModel> buscaPorNome(String nome) throws Exception {
-        UsuarioModel c = usuarioRepository.buscaPorNome(nome);
+        UsuarioModel c;
+        c = usuarioRepository.buscaPorNome(nome);
+        if (c.getCarrinho().getQuantidadeItens() != c.getCarrinho().getCarrinhoProdutoModel().size()) {
+            c.getCarrinho().setQuantidadeItens(c.getCarrinho().getCarrinhoProdutoModel().size());
+            c = usuarioRepository.save(c);
+        }
         if (c != null) {
             return new ResponseEntity<>(c, HttpStatus.OK);
         } else
@@ -142,7 +151,12 @@ public class UsuarioService {
     }
 
     public ResponseEntity<UsuarioModel> buscaPorCPF(String cpf) throws Exception {
-        UsuarioModel c = usuarioRepository.buscaPorCPF(cpf);
+        UsuarioModel c;
+        c = usuarioRepository.buscaPorCPF(cpf);
+        if (c.getCarrinho().getQuantidadeItens() != c.getCarrinho().getCarrinhoProdutoModel().size()) {
+            c.getCarrinho().setQuantidadeItens(c.getCarrinho().getCarrinhoProdutoModel().size());
+            c = usuarioRepository.save(c);
+        }
         if (c == null) {
             return new ResponseEntity<>(c, HttpStatus.OK);
         } else

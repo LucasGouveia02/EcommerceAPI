@@ -8,9 +8,7 @@ import com.br.senac.EcommerceAPI.Models.ProdutoModel;
 import com.br.senac.EcommerceAPI.Models.TamanhoEstoqueModel;
 import com.br.senac.EcommerceAPI.Models.URLImagensModel;
 import com.br.senac.EcommerceAPI.Models.UsuarioModel;
-import com.br.senac.EcommerceAPI.Repositories.ProdutoRepository;
-import com.br.senac.EcommerceAPI.Repositories.TamanhoEstoqueRepository;
-import com.br.senac.EcommerceAPI.Repositories.URLImagensRepository;
+import com.br.senac.EcommerceAPI.Repositories.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,6 +38,12 @@ public class ProdutoService {
     @Autowired
     private TamanhoEstoqueRepository tamanhoEstoqueRepository;
 
+    @Autowired
+    private CarrinhoProdutoRepository carrinhoProdutoRepository;
+
+    @Autowired
+    private FavoritoRepository favoritoRepository;
+
     public ResponseEntity<ProdutoDTO> criarProduto(String produto,
                                                    MultipartFile imagem,
                                                    MultipartFile imagem2,
@@ -49,6 +53,7 @@ public class ProdutoService {
         ObjectMapper mapper = new ObjectMapper();
         ProdutoDTO produtoDTO = mapper.readValue(produto, ProdutoDTO.class);
         ProdutoModel prd = new ProdutoModel(produtoDTO);
+        prd.setAtivado(true);
         produtoModel = this.produtoRepository.save(prd);
 
         // Salvando os TamanhoEstoqueModel associados ao ProdutoModel
@@ -178,5 +183,15 @@ public class ProdutoService {
         ProdutoModel produtoAlterado = produtoRepository.findById(produtoDTO.getId()).orElseThrow(
                 () -> new Exception("Produto não encontrado"));
         return new ResponseEntity<>(produtoAlterado, HttpStatus.CREATED);
+    }
+
+    public ResponseEntity<ProdutoModel> desativarProduto(Long id) throws Exception {
+        ProdutoModel produto = produtoRepository.findById(id).orElseThrow(
+                () -> new Exception("Produto não encontrado"));
+        carrinhoProdutoRepository.limparProdutoCarrinhos(produto);
+        favoritoRepository.limparProdutoFavoritos(produto);
+        produto.setAtivado(false);
+        ProdutoModel produtoDesativado = produtoRepository.save(produto);
+        return new ResponseEntity<>(produtoDesativado, HttpStatus.OK);
     }
 }
