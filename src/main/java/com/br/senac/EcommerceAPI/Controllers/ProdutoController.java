@@ -55,6 +55,11 @@ public class ProdutoController {
         return produtoService.atualizarEstoque(estoqueDTO);
     }
 
+    @PutMapping("/desativar/{id}")
+    public ResponseEntity<ProdutoModel> atualizarEstoque(@PathVariable("id") Long id) throws Exception {
+        return produtoService.desativarProduto(id);
+    }
+
     @PutMapping("/produto/alterar")
     public ResponseEntity<ProdutoModel> atualizarProduto(
             @RequestParam String produto,

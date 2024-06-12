@@ -39,6 +39,8 @@ public class ProdutoModel {
     private String unidade;
     @Column(nullable = false, name = "descricao")
     private String descricao;
+    @Column(name = "ativado", nullable = false)
+    private Boolean ativado;
     @OneToMany(mappedBy = "produtoId", cascade = CascadeType.ALL)
     private List<TamanhoEstoqueModel> tamanhosEstoque;
     @OneToMany(mappedBy = "produtoId", cascade = CascadeType.ALL)
