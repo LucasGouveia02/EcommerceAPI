@@ -11,6 +11,7 @@ import lombok.Setter;
 public class AtualizarEnderecoDTO {
     private String cep;
     private String logradouro;
+    private String complemento;
     private String numero;
     private String bairro;
     private String cidade;

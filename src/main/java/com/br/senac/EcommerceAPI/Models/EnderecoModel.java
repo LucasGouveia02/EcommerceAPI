@@ -21,6 +21,7 @@ public class EnderecoModel {
     private String cep;
     @Column(nullable = false)
     private String logradouro;
+    private String complemento;
     @Column(nullable = false)
     private String bairro;
     @Column(nullable = false)
@@ -33,6 +34,7 @@ public class EnderecoModel {
     public EnderecoModel(EnderecoDTO dto) {
         this.cep = dto.getCep();
         this.logradouro = dto.getLogradouro();
+        this.complemento = dto.getComplemento();
         this.bairro = dto.getBairro();
         this.numero = dto.getNumero();
         this.cidade = dto.getCidade();
@@ -41,6 +43,7 @@ public class EnderecoModel {
     public EnderecoModel(CadastroUsuarioDTO dto) {
         this.cep = dto.getCep();
         this.logradouro = dto.getLogradouro();
+        this.complemento = dto.getComplemento();
         this.bairro = dto.getBairro();
         this.numero = dto.getNumero();
         this.cidade = dto.getCidade();
@@ -49,6 +52,7 @@ public class EnderecoModel {
     public EnderecoModel(NovoEnderecoDTO dto) {
         this.cep = dto.getCep();
         this.logradouro = dto.getLogradouro();
+        this.complemento = dto.getComplemento();
         this.bairro = dto.getBairro();
         this.numero = dto.getNumero();
         this.cidade = dto.getCidade();
@@ -57,6 +61,7 @@ public class EnderecoModel {
     public EnderecoModel(AtualizarEnderecoDTO dto) {
         this.cep = dto.getCep();
         this.logradouro = dto.getLogradouro();
+        this.complemento = dto.getComplemento();
         this.numero = dto.getNumero();
         this.bairro = dto.getBairro();
         this.cidade = dto.getCidade();

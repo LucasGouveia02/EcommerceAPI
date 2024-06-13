@@ -20,6 +20,7 @@ public class CadastroUsuarioDTO {
     private Date dtNascimento;
     private String cep;
     private String logradouro;
+    private String complemento;
     private String bairro;
     private String numero;
     private String cidade;

@@ -41,6 +41,7 @@ public class EnderecoService {
             EnderecoModel endereco = new EnderecoModel();
             endereco.setCep(viaCepResponse.getCep());
             endereco.setLogradouro(viaCepResponse.getLogradouro());
+            endereco.setComplemento(endereco.getComplemento());
             endereco.setBairro(viaCepResponse.getBairro());
             endereco.setNumero(numero);
             endereco.setCidade(viaCepResponse.getCidade());
@@ -59,6 +60,7 @@ public class EnderecoService {
 
             endereco.setCep(dto.getCep());
             endereco.setLogradouro(dto.getLogradouro());
+            endereco.setComplemento(dto.getComplemento());
             endereco.setBairro(dto.getBairro());
             endereco.setNumero(dto.getNumero());
             endereco.setCidade(dto.getCidade());
@@ -100,6 +102,7 @@ public class EnderecoService {
                 () -> new Exception("Endereço não encontrado"));
         eE.setCep(dto.getCep());
         eE.setLogradouro(dto.getLogradouro());
+        eE.setComplemento(dto.getComplemento());
         eE.setBairro(dto.getBairro());
         eE.setNumero(dto.getNumero());
         eE.setCidade(dto.getCidade());
