@@ -79,6 +79,7 @@ public class UsuarioService {
 
             enderecoDTO.setCep(dto.getCep());
             enderecoDTO.setLogradouro(dto.getLogradouro());
+            enderecoDTO.setComplemento(dto.getComplemento());
             enderecoDTO.setBairro(dto.getBairro());
             enderecoDTO.setNumero(dto.getNumero());
             enderecoDTO.setCidade(dto.getCidade());
@@ -226,6 +227,7 @@ public class UsuarioService {
         if (endereco != null) {
             endereco.setCep(dto.getCep());
             endereco.setLogradouro(dto.getLogradouro());
+            endereco.setComplemento(dto.getComplemento());
             endereco.setNumero(dto.getNumero());
             endereco.setBairro(dto.getBairro());
             endereco.setCidade(dto.getCidade());
@@ -253,6 +255,7 @@ public class UsuarioService {
             EnderecoModel endereco = new EnderecoModel();
             endereco.setCep(dto.getCep());
             endereco.setLogradouro(dto.getLogradouro());
+            endereco.setComplemento(dto.getComplemento());
             endereco.setNumero(dto.getNumero());
             endereco.setBairro(dto.getBairro());
             endereco.setCidade(dto.getCidade());
