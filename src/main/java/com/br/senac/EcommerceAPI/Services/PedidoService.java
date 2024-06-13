@@ -37,7 +37,7 @@ public class PedidoService {
     @Autowired
     private CarrinhoService carrinhoService;
 
-    public ResponseEntity<PedidoModel> gravarPedido (PedidoDTO dto) throws Exception {
+    public ResponseEntity<PedidoModel> gravarPedido(PedidoDTO dto) throws Exception {
         try {
             UsuarioModel usuario = usuarioRepository.findById(dto.getIdUsuario()).orElseThrow(
                     () -> new Exception("Usuário não encontrado!"));
@@ -54,7 +54,7 @@ public class PedidoService {
             CarrinhoModel carrinhoModel = carrinhoRepository.findById(dto.getIdUsuario()).orElseThrow(
                     () -> new Exception("Carrinho não encontrado com esse ID"));
 
-            for(CarrinhoProdutoModel item : carrinhoModel.getCarrinhoProdutoModel()) {
+            for (CarrinhoProdutoModel item : carrinhoModel.getCarrinhoProdutoModel()) {
                 PedidoProdutoKey pedidoProdutoKey = new PedidoProdutoKey(novoPedido, item.getId().getProdutoId());
 
                 PedidoProdutoModel pedidoProduto = new PedidoProdutoModel();
@@ -70,17 +70,34 @@ public class PedidoService {
             carrinhoRepository.save(carrinhoModel);
 
             return new ResponseEntity<>(novoPedido, HttpStatus.CREATED);
-        } catch (Exception e){
+        } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
 
-    public ResponseEntity<List<PedidoModel>> listarPedidosUsuario (Long id) throws Exception {
+    public ResponseEntity<List<PedidoModel>> listarPedidosUsuario(Long id) throws Exception {
         UsuarioModel usuario = usuarioRepository.findById(id).orElseThrow(
                 () -> new Exception("Usuário não encontrado com esse ID"));
 
         List<PedidoModel> pedidos = usuario.getPedidos();
 
         return new ResponseEntity<>(pedidos, HttpStatus.OK);
+    }
+
+    public ResponseEntity<List<PedidoProdutoModel>> listarItens(Long id) throws Exception {
+        try {
+            PedidoModel p = new PedidoModel();
+            p.setId(id);
+            List<PedidoProdutoModel> pedidoProdutoModels = pedidoRepository.listapedidos(p);
+
+            if (pedidoProdutoModels != null && !pedidoProdutoModels.isEmpty()) {
+                return new ResponseEntity<>(pedidoProdutoModels, HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+        } catch (Exception e) {
+            System.out.println("Erro ao buscar itens do pedido: " + e.getMessage());
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 }
