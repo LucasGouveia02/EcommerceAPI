@@ -4,6 +4,9 @@ import com.br.senac.EcommerceAPI.DTO.*;
 import com.br.senac.EcommerceAPI.Keys.EnderecoUsuarioKey;
 import com.br.senac.EcommerceAPI.Models.*;
 import com.br.senac.EcommerceAPI.Repositories.*;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -38,6 +41,11 @@ public class UsuarioService {
     private UsuarioModel usuario;
     private EnderecoUsuario endereco;
 
+    /**
+     * Metódo que retorna os dados do usuário que está autenticado
+     * @param id ID do usuário autenticado no Ecommerce
+     * @return ResponseEntity com os dados do usuário
+     * */
     public ResponseEntity<UsuarioInfoDTO> retonaDadosUsuario(Long id) throws Exception {
         UsuarioModel usuario = usuarioRepository.findById(id).orElseThrow(
                 () -> new Exception("Usuário não encontrado!"));
@@ -57,6 +65,12 @@ public class UsuarioService {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
+    /**
+     * Cria um novo usuário a partir de um DTO com informações de dados pessoais," +
+     * "informações de endereço e credenciais. Um carrinho é criado e atrelado no momento do cadastro do usuário.
+     * @param dto Objeto de dado do usuário a ser criado
+     * @return ResponseEntity com o usuário criado ou status de conflito se o usuário já existe
+     * */
     public ResponseEntity<UsuarioModel> criarUsuario(CadastroUsuarioDTO dto) throws ParseException {
 
         try {
@@ -123,11 +137,20 @@ public class UsuarioService {
         return formatter.parse(dataFormatada);
     }
 
+    /**
+     * Retorna uma lista de usuários cadastrado
+     * @return ResponseEntity com a lista de usuários
+     * */
     public ResponseEntity<List<UsuarioModel>> listarUsuarios() {
         List<UsuarioModel> listaCliente = usuarioRepository.findAll();
         return new ResponseEntity<>(listaCliente, HttpStatus.OK);
     }
 
+    /**
+     * Busca um usuário pelo ID e verifica o quantidade de itens no carrinho do usuário
+     * @param id ID do usuário a ser encontrado
+     * @return ResponseEntity com o usuário encontrado e o tamanho do carrinho
+     * */
     public ResponseEntity<UsuarioModel> buscaPorId(Long id) throws Exception{
         UsuarioModel c;
         c = usuarioRepository.findById(id).orElseThrow(() -> new Exception("Cliente não encontrado"));
@@ -138,6 +161,11 @@ public class UsuarioService {
         return new ResponseEntity<>(c, HttpStatus.OK);
     }
 
+    /**
+     * Busca um usuário pelo Nome e verifica o quantidade de itens no carrinho do usuário
+     * @param nome Nome do usuário a ser encontrado
+     * @return ResponseEntity com o usuário encontrado e o tamanho do carrinho
+     * */
     public ResponseEntity<UsuarioModel> buscaPorNome(String nome) throws Exception {
         UsuarioModel c;
         c = usuarioRepository.buscaPorNome(nome);
@@ -151,6 +179,11 @@ public class UsuarioService {
             throw new Exception("Cliente não localizado");
     }
 
+    /**
+     * Busca um usuário pelo CPF e verifica o quantidade de itens no carrinho do usuário
+     * @param cpf CPF do usuário a ser encontrado
+     * @return ResponseEntity com o usuário encontrado e o tamanho do carrinho
+     * */
     public ResponseEntity<UsuarioModel> buscaPorCPF(String cpf) throws Exception {
         UsuarioModel c;
         c = usuarioRepository.buscaPorCPF(cpf);
@@ -164,6 +197,12 @@ public class UsuarioService {
             throw new Exception("Cliente já cadastrado.");
     }
 
+    /**
+     * Atualiza os dados pessoais do usuário autenticado
+     * @param id ID do usuário a autenticado
+     * @param dto Objeto com os dados a serem alterados
+     * @return ResponseEntity com o usuário alterado
+     * */
     public ResponseEntity<UsuarioModel> atualizarUsuario(Long id, AtualizarUsuarioDTO dto) throws Exception {
         UsuarioModel usuario = usuarioRepository.findById(id).orElseThrow(
                 () -> new Exception("Usuário não encontrado!"));
@@ -184,6 +223,12 @@ public class UsuarioService {
         return new ResponseEntity<>(usuario, HttpStatus.OK);
     }
 
+    /**
+     * Atualiza o email do usuário autenticado
+     * @param id ID do usuário a autenticado
+     * @param dto Objeto com os dados a serem alterados
+     * @return ResponseEntity com o usuário alterado
+     * */
     public ResponseEntity<CredencialModel> atualizarEmail(Long id, AtualizarCredencialDTO dto) {
         CredencialModel credencial = credencialRepository.findByIdUsuario(id);
 
@@ -202,6 +247,12 @@ public class UsuarioService {
         return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
     }
 
+    /**
+     * Atualiza a senha do usuário autenticado
+     * @param id ID do usuário a autenticado
+     * @param dto Objeto com os dados a serem alterados
+     * @return ResponseEntity com o usuário alterado
+     * */
     public ResponseEntity<CredencialModel> atualizarSenha(Long id, AtualizarCredencialDTO dto) {
         CredencialModel credencial = credencialRepository.findByIdUsuario(id);
 
@@ -220,6 +271,12 @@ public class UsuarioService {
         return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
     }
 
+    /**
+     * Atualiza o endereço do usuário autenticado
+     * @param id ID do endereço a ser alterado
+     * @param dto Objeto com os dados do endereço a ser alterado
+     * @return ResponseEntity com o endereço alterado
+     * */
     public ResponseEntity<EnderecoModel> atualizarEndereco(Long id, AtualizarEnderecoDTO dto) throws Exception {
         EnderecoModel endereco = enderecoRepository.findById(id).orElseThrow(
                 () -> new Exception("Endereço não encontrado!"));
@@ -237,6 +294,12 @@ public class UsuarioService {
         }
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
+
+    /**
+     * Exclui o endereço escolhido pelo usuário autenticado
+     * @param id ID do usuário a autenticado
+     * @return ResponseEntity com o StatusCode 200 (OK)
+     * */
     @Transactional
     public ResponseEntity<?> excluirEndereco(Long id) throws Exception {
         EnderecoModel endereco = enderecoRepository.findById(id).orElseThrow(
@@ -247,6 +310,12 @@ public class UsuarioService {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    /**
+     * Adiciona um novo endereço atrelado ao usuário autenticado
+     * @param id ID do usuário a autenticado
+     * @param dto Objeto com os dados do endereço a ser adicionado
+     * @return ResponseEntity com o novo endereço adicionado
+     * */
     public ResponseEntity<EnderecoModel> novoEndereco(Long id, EnderecoDTO dto) throws Exception {
         UsuarioModel usuario = usuarioRepository.findById(id).orElseThrow(
                 () -> new Exception("Usuário não localizado!"));
