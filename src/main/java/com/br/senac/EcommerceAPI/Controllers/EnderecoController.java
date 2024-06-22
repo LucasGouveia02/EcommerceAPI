@@ -2,7 +2,6 @@ package com.br.senac.EcommerceAPI.Controllers;
 
 import com.br.senac.EcommerceAPI.DTO.*;
 import com.br.senac.EcommerceAPI.Models.EnderecoModel;
-import com.br.senac.EcommerceAPI.Models.UsuarioModel;
 import com.br.senac.EcommerceAPI.Services.EnderecoService;
 import com.br.senac.EcommerceAPI.Services.UsuarioService;
 import com.br.senac.EcommerceAPI.Services.ViaCepService;
